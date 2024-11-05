@@ -1,9 +1,6 @@
 package com.GrupoAlvaro.SistemaGuardias.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.time.LocalTime;
 
@@ -16,6 +13,13 @@ public class Guardia {
 
     private String diaSemana;
     private LocalTime hora;
+
+    @ManyToOne
+    @JoinColumn(name = "profesor_id", nullable = false)
+    private Profesor profesor;
+
+    @OneToOne(mappedBy = "guardia")
+    private Sustitucion sustitucion;
 
     public Guardia() {}
 
