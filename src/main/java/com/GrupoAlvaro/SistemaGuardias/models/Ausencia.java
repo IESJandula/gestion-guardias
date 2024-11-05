@@ -51,5 +51,6 @@ public class Ausencia {
     public void setTareas(String tareas) {
         this.tareas = tareas;
     }
+
 }
 
