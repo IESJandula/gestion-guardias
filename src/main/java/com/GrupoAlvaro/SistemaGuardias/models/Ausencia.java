@@ -15,6 +15,10 @@ public class Ausencia {
     private Integer horas;
     private String tareas;
 
+    @ManyToOne
+    @JoinColumn(name = "profesor_id", nullable = false)
+    private Profesor profesor;
+
     public Ausencia() {}
 
     public Ausencia(LocalDate fecha, String tareas, Integer horas) {
@@ -52,5 +56,12 @@ public class Ausencia {
         this.tareas = tareas;
     }
 
+    public Profesor getProfesor() {
+        return profesor;
+    }
+
+    public void setProfesor(Profesor profesor) {
+        this.profesor = profesor;
+    }
 }
 
