@@ -14,7 +14,7 @@ public class Profesor {
     private String apellido;
     private Integer contadorGuardias;
 
-    @OneToMany(mappedBy = "profesor")
+    @OneToMany(mappedBy = "profesor", cascade = CascadeType.ALL)
     private List<Horario> horario;
 
     @OneToMany(mappedBy = "profesor")
