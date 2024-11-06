@@ -14,6 +14,7 @@ public class Profesor {
     private String apellido;
     private Integer contadorGuardias;
 
+    //Relacion unidireccional con horario
     @OneToMany(mappedBy = "profesor", cascade = CascadeType.ALL)
     private List<Horario> horario;
 
