@@ -9,45 +9,50 @@ public class Profesor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
     private String nombre;
+    private String apellido;
+    private Integer contadorGuardias;
 
     @OneToMany(mappedBy = "profesor")
     private List<Horario> horario;
 
     @OneToMany(mappedBy = "profesor")
-    private List<Guardia> guardias;
-
-    @OneToMany(mappedBy = "profesor")
-    private List<Ausencia> ausencias;
+    private List<Sustitucion> sustituciones;
 
     public Profesor() {}
 
-    public Profesor(String nombre) {
+    public Profesor(String nombre, String apellido) {
         this.nombre = nombre;
+        this.apellido = apellido;
     }
 
     public long getId() {
         return id;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public String getApellido() {
+        return apellido;
     }
 
-    public List<Ausencia> getAusencias() {
-        return ausencias;
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
     }
 
-    public void setAusencias(List<Ausencia> ausencias) {
-        this.ausencias = ausencias;
+    public Integer getContadorGuardias() {
+        return contadorGuardias;
     }
 
-    public List<Guardia> getGuardias() {
-        return guardias;
+    public void setContadorGuardias(Integer contadorGuardias) {
+        this.contadorGuardias = contadorGuardias;
     }
 
-    public void setGuardias(List<Guardia> guardias) {
-        this.guardias = guardias;
+    public List<Sustitucion> getSustituciones() {
+        return sustituciones;
+    }
+
+    public void setSustituciones(List<Sustitucion> sustituciones) {
+        this.sustituciones = sustituciones;
     }
 
     public String getNombre() {
