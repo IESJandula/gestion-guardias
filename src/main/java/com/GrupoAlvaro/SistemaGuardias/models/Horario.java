@@ -13,16 +13,14 @@ public class Horario {
     private String nombre; // Nombre de la materia o actividad para esa hora
 
 
-    // Constructor vacío requerido por JPA
-    protected Horario() {}
+    public Horario() {}
 
-    // Constructor con todos los atributos
+
     public Horario(HorarioId id, String nombre) {
         this.id = id;
         this.nombre = nombre;
     }
 
-    // Getters y setters
 
     public HorarioId getId() {
         return id;

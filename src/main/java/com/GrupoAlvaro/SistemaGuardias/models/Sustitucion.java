@@ -11,24 +11,36 @@ public class Sustitucion {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private LocalDate fecha;
-    private Integer hora;
-
-    @OneToOne
-    @JoinColumn(name = "guardia_id", nullable = false)
-    private Guardia guardia;
-
+    // Profesor que cubre la sustitución
     @ManyToOne
-    @JoinColumn(name = "grupo_id", nullable = false)
+    @JoinColumn(name = "id_profesor_guardia")
+    private Profesor profesorGuardia;
+
+    // Grupo que va a recibir la sustitución
+    @ManyToOne
+    @JoinColumn(name = "id_grupo")
     private Grupo grupo;
 
-    public Sustitucion() {}
 
-    public Sustitucion(LocalDate fecha, Integer hora) {
-        this.fecha = fecha;
-        this.hora = hora;
+    // Aula en la que se imparte la sustitución
+    @ManyToOne
+    @JoinColumn(name = "id_aula")
+    private Aula aula;  // Relacionado con Aula
+
+    private Boolean realizado;  // Si la sustitución fue efectuada o no
+
+    // Constructor vacío
+    protected Sustitucion() {}
+
+    // Constructor con parámetros
+    public Sustitucion(Profesor profesorGuardia, Grupo grupo, Aula aula, Boolean realizado) {
+        this.profesorGuardia = profesorGuardia;
+        this.grupo = grupo;
+        this.aula = aula;
+        this.realizado = realizado;
     }
 
+    // Getters y Setters
     public Long getId() {
         return id;
     }
@@ -37,19 +49,37 @@ public class Sustitucion {
         this.id = id;
     }
 
-    public LocalDate getFecha() {
-        return fecha;
+    public Profesor getProfesorGuardia() {
+        return profesorGuardia;
     }
 
-    public void setFecha(LocalDate fecha) {
-        this.fecha = fecha;
+    public void setProfesorGuardia(Profesor profesorGuardia) {
+        this.profesorGuardia = profesorGuardia;
     }
 
-    public Integer getHora() {
-        return hora;
+    public Grupo getGrupo() {
+        return grupo;
     }
 
-    public void setHora(Integer hora) {
-        this.hora = hora;
+    public void setGrupo(Grupo grupo) {
+        this.grupo = grupo;
+    }
+
+
+
+    public Aula getAula() {
+        return aula;
+    }
+
+    public void setAula(Aula aula) {
+        this.aula = aula;
+    }
+
+    public Boolean getRealizado() {
+        return realizado;
+    }
+
+    public void setRealizado(Boolean realizado) {
+        this.realizado = realizado;
     }
 }

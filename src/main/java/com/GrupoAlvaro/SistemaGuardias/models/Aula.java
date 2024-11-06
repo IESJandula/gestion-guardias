@@ -8,60 +8,56 @@ import java.util.List;
 public class Aula {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
-    private String abreviatura;
     private String nombre;
 
-    @OneToMany(mappedBy = "aula")
-    private List<Horario> horarios;
+    private String ubicacion;
 
-    @ManyToOne
-    @JoinColumn(name = "grupo_id")
-    private Grupo grupo;
+    // Relación ManyToMany con Grupo, un aula puede tener varios grupos
+    @ManyToMany(mappedBy = "aulas")
+    private List<Grupo> grupos;  // Los grupos que usan esta aula
 
-    //constructor vacio
+
     public Aula() {}
 
-    public Aula(String abreviatura, String nombre) {
-        this.abreviatura = abreviatura;
+
+    public Aula(String nombre, String ubicacion) {
         this.nombre = nombre;
+        this.ubicacion = ubicacion;
     }
 
-    public long getId() {
+
+    public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getNombre() {
         return nombre;
     }
 
-    public String getAbreviatura() {
-        return abreviatura;
-    }
-
-    public void setAbreviatura(String abreviatura) {
-        this.abreviatura = abreviatura;
-    }
-
-    public List<Horario> getHorarios() {
-        return horarios;
-    }
-
-    public void setHorarios(List<Horario> horarios) {
-        this.horarios = horarios;
-    }
-
-    public Grupo getGrupo() {
-        return grupo;
-    }
-
-    public void setGrupo(Grupo grupo) {
-        this.grupo = grupo;
-    }
-
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
 
+    public String getUbicacion() {
+        return ubicacion;
+    }
+
+    public void setUbicacion(String ubicacion) {
+        this.ubicacion = ubicacion;
+    }
+
+    public List<Grupo> getGrupos() {
+        return grupos;
+    }
+
+    public void setGrupos(List<Grupo> grupos) {
+        this.grupos = grupos;
+    }
 }
+

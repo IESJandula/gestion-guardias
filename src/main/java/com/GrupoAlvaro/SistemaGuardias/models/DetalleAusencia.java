@@ -8,11 +8,9 @@ import java.util.List;
 
 @Entity
 public class DetalleAusencia {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
-    // Relación con la entidad Ausencia
+    // Relación con la entidad Ausencia. El id de ausencia sera su clave primaria
+    @Id
     @ManyToOne
     @JoinColumn(name = "id_ausencia")
     private Ausencia ausencia;
@@ -47,20 +45,8 @@ public class DetalleAusencia {
     }
 
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public Ausencia getAusencia() {
         return ausencia;
-    }
-
-    public void setAusencia(Ausencia ausencia) {
-        this.ausencia = ausencia;
     }
 
     public Grupo getGrupo() {
