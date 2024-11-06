@@ -1,35 +1,60 @@
 package com.GrupoAlvaro.SistemaGuardias.models;
 
+import com.GrupoAlvaro.SistemaGuardias.enums.Hora;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
-@Table(name = "ausencias")
+
 public class Ausencia {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private LocalDate fecha;
-    private Integer horas;
-    private String tareas;
-
+    // Profesor que está ausente
     @ManyToOne
-    @JoinColumn(name = "profesor_id", nullable = false)
+    @JoinColumn(name = "id_profesor")
     private Profesor profesor;
+
+    // Fecha de la ausencia
+    private LocalDate fecha;  // Fecha específica de la ausencia
+
+    // Lista de horas en las que el profesor está ausente
+    @ElementCollection(targetClass = Hora.class)
+    @Enumerated(EnumType.STRING)  // Guardamos las horas como texto en la base de datos
+    private List<Hora> horas;  // Ejemplo: [PRIMERA, TERCERA, QUINTA]
+
+    // Lista de detalles de ausencia (clases que se pierden durante la ausencia)
+    @OneToMany(mappedBy = "ausencia", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<DetalleAusencia> detalles;
+
 
     public Ausencia() {}
 
-    public Ausencia(LocalDate fecha, String tareas, Integer horas) {
+
+    public Ausencia(Profesor profesor, LocalDate fecha, List<Hora> horas) {
+        this.profesor = profesor;
         this.fecha = fecha;
-        this.tareas = tareas;
         this.horas = horas;
     }
 
-    // Getters y Setters
+
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Profesor getProfesor() {
+        return profesor;
+    }
+
+    public void setProfesor(Profesor profesor) {
+        this.profesor = profesor;
     }
 
     public LocalDate getFecha() {
@@ -40,28 +65,21 @@ public class Ausencia {
         this.fecha = fecha;
     }
 
-    public Integer getHoras() {
+    public List<Hora> getHoras() {
         return horas;
     }
 
-    public void setHoras(Integer horas) {
+    public void setHoras(List<Hora> horas) {
         this.horas = horas;
     }
 
-    public String getTareas() {
-        return tareas;
+    public List<DetalleAusencia> getDetalles() {
+        return detalles;
     }
 
-    public void setTareas(String tareas) {
-        this.tareas = tareas;
-    }
-
-    public Profesor getProfesor() {
-        return profesor;
-    }
-
-    public void setProfesor(Profesor profesor) {
-        this.profesor = profesor;
+    public void setDetalles(List<DetalleAusencia> detalles) {
+        this.detalles = detalles;
     }
 }
+
 
