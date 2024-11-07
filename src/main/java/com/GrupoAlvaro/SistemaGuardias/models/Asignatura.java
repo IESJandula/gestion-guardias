@@ -12,17 +12,21 @@ public class Asignatura {
 
     private String nombre;
 
-    // Relación con AsignaturaProfesorGrupo
+    @ManyToMany(mappedBy = "asignaturas")
+    private List<Grupo> grupos;
+
+    @ManyToMany(mappedBy = "asignaturas")
+    private List<Profesor> profesores;
+
     @OneToMany(mappedBy = "asignatura")
-    private List<AsignaturaProfesorGrupo> asignaturaProfesoresGrupos;
+    private List<Clase> clases;
+
+    @OneToMany(mappedBy = "asignatura")
+    private List<Tarea> tareas;
 
     // Getters y Setters
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getNombre() {
@@ -33,11 +37,35 @@ public class Asignatura {
         this.nombre = nombre;
     }
 
-    public List<AsignaturaProfesorGrupo> getAsignaturaProfesores() {
-        return asignaturaProfesoresGrupos;
+    public List<Grupo> getGrupos() {
+        return grupos;
     }
 
-    public void setAsignaturaProfesores(List<AsignaturaProfesorGrupo> asignaturaProfesoresGrupos) {
-        this.asignaturaProfesoresGrupos = asignaturaProfesoresGrupos;
+    public void setGrupos(List<Grupo> grupos) {
+        this.grupos = grupos;
+    }
+
+    public List<Profesor> getProfesores() {
+        return profesores;
+    }
+
+    public void setProfesores(List<Profesor> profesores) {
+        this.profesores = profesores;
+    }
+
+    public List<Clase> getClases() {
+        return clases;
+    }
+
+    public void setClases(List<Clase> clases) {
+        this.clases = clases;
+    }
+
+    public List<Tarea> getTareas() {
+        return tareas;
+    }
+
+    public void setTareas(List<Tarea> tareas) {
+        this.tareas = tareas;
     }
 }

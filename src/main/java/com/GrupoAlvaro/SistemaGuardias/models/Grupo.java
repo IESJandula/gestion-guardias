@@ -13,42 +13,36 @@ public class Grupo {
 
     private String nombre;  // Ejemplo: "1A", "2B"
 
-    // Relación con el horario del grupo
-    @OneToMany(mappedBy = "grupo")
-    private List<Horario> horarios;
+    private boolean esConflictivo;
 
-    // Relación con las aulas asignadas
     @ManyToMany
     @JoinTable(
-            name = "grupo_aula",
+            name = "grupo_asignatura",
             joinColumns = @JoinColumn(name = "grupo_id"),
-            inverseJoinColumns = @JoinColumn(name = "aula_id")
+            inverseJoinColumns = @JoinColumn(name = "asignatura_id")
     )
-    private List<Aula> aulas;
+    private List<Asignatura> asignaturas;
 
-    // Relación con las sustituciones de este grupo
     @OneToMany(mappedBy = "grupo")
-    private List<Sustitucion> sustituciones;
+    private List<Clase> clases;
 
-    // Relación con AsignaturaProfesor
     @OneToMany(mappedBy = "grupo")
-    private List<AsignaturaProfesorGrupo> asignaturaProfesoresGrupos;
+    private List<Tarea> tareas;
 
-    // Constructor vacío
-    protected Grupo() {}
+    @ManyToMany(mappedBy = "gruposAusentes")
+    private List<Ausencia> ausencias;
 
-    // Constructor con parámetros
-    public Grupo(String nombre) {
+
+    public Grupo() {}
+
+    public Grupo(String nombre, boolean esConflictivo) {
         this.nombre = nombre;
+        this.esConflictivo = esConflictivo;
     }
 
     // Getters y Setters
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getNombre() {
@@ -59,35 +53,43 @@ public class Grupo {
         this.nombre = nombre;
     }
 
-    public List<Horario> getHorarios() {
-        return horarios;
+    public boolean isEsConflictivo() {
+        return esConflictivo;
     }
 
-    public void setHorarios(List<Horario> horarios) {
-        this.horarios = horarios;
+    public void setEsConflictivo(boolean esConflictivo) {
+        this.esConflictivo = esConflictivo;
     }
 
-    public List<Aula> getAulas() {
-        return aulas;
+    public List<Asignatura> getAsignaturas() {
+        return asignaturas;
     }
 
-    public void setAulas(List<Aula> aulas) {
-        this.aulas = aulas;
+    public void setAsignaturas(List<Asignatura> asignaturas) {
+        this.asignaturas = asignaturas;
     }
 
-    public List<Sustitucion> getSustituciones() {
-        return sustituciones;
+    public List<Clase> getClases() {
+        return clases;
     }
 
-    public void setSustituciones(List<Sustitucion> sustituciones) {
-        this.sustituciones = sustituciones;
+    public void setClases(List<Clase> clases) {
+        this.clases = clases;
     }
 
-    public List<AsignaturaProfesorGrupo> getAsignaturaProfesoresGrupos() {
-        return asignaturaProfesoresGrupos;
+    public List<Tarea> getTareas() {
+        return tareas;
     }
 
-    public void setAsignaturaProfesores(List<AsignaturaProfesorGrupo> asignaturaProfesoresGrupos) {
-        this.asignaturaProfesoresGrupos = asignaturaProfesoresGrupos;
+    public void setTareas(List<Tarea> tareas) {
+        this.tareas = tareas;
+    }
+
+    public List<Ausencia> getAusencias() {
+        return ausencias;
+    }
+
+    public void setAusencias(List<Ausencia> ausencias) {
+        this.ausencias = ausencias;
     }
 }

@@ -12,31 +12,29 @@ public class Ausencia {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // Profesor que está ausente
+    private LocalDate fechaInicio;
+    private LocalDate fechaFin;
+
+    @ElementCollection
+    private List<Integer> horas; // Lista de horas afectadas
+
     @ManyToOne
-    @JoinColumn(name = "id_profesor")
-    private Profesor profesor;
+    private Profesor profesorAusente;
 
-    // Fecha de la ausencia
-    private LocalDate fecha;  // Fecha específica de la ausencia
+    @OneToMany(mappedBy = "ausencia")
+    private List<Tarea> tareas;
 
-    // Lista de horas en las que el profesor está ausente
-    @ElementCollection(targetClass = Hora.class)
-    @Enumerated(EnumType.STRING)  // Guardamos las horas como texto en la base de datos
-    private List<Hora> horas;  // Ejemplo: [PRIMERA, TERCERA, QUINTA]
-
-    // Lista de detalles de ausencia (clases que se pierden durante la ausencia)
-    @OneToMany(mappedBy = "ausencia", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<DetalleAusencia> detalles;
+    @OneToMany(mappedBy = "ausencia")
+    private List<Asignacion> asignaciones;
 
 
     public Ausencia() {}
 
 
-    public Ausencia(Profesor profesor, LocalDate fecha, List<Hora> horas) {
-        this.profesor = profesor;
-        this.fecha = fecha;
-        this.horas = horas;
+    public Ausencia(Profesor profesorAusente, LocalDate fechaInicio, LocalDate fechaFin) {
+        this.profesorAusente = profesorAusente;
+        this.fechaInicio = fechaInicio;
+        this.fechaFin = fechaFin;
     }
 
 
@@ -44,40 +42,52 @@ public class Ausencia {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public LocalDate getFechaInicio() {
+        return fechaInicio;
     }
 
-    public Profesor getProfesor() {
-        return profesor;
+    public void setFechaInicio(LocalDate fechaInicio) {
+        this.fechaInicio = fechaInicio;
     }
 
-    public void setProfesor(Profesor profesor) {
-        this.profesor = profesor;
+    public LocalDate getFechaFin() {
+        return fechaFin;
     }
 
-    public LocalDate getFecha() {
-        return fecha;
+    public void setFechaFin(LocalDate fechaFin) {
+        this.fechaFin = fechaFin;
     }
 
-    public void setFecha(LocalDate fecha) {
-        this.fecha = fecha;
-    }
-
-    public List<Hora> getHoras() {
+    public List<Integer> getHoras() {
         return horas;
     }
 
-    public void setHoras(List<Hora> horas) {
+    public void setHoras(List<Integer> horas) {
         this.horas = horas;
     }
 
-    public List<DetalleAusencia> getDetalles() {
-        return detalles;
+    public Profesor getProfesorAusente() {
+        return profesorAusente;
     }
 
-    public void setDetalles(List<DetalleAusencia> detalles) {
-        this.detalles = detalles;
+    public void setProfesorAusente(Profesor profesorAusente) {
+        this.profesorAusente = profesorAusente;
+    }
+
+    public List<Tarea> getTareas() {
+        return tareas;
+    }
+
+    public void setTareas(List<Tarea> tareas) {
+        this.tareas = tareas;
+    }
+
+    public List<Asignacion> getAsignaciones() {
+        return asignaciones;
+    }
+
+    public void setAsignaciones(List<Asignacion> asignaciones) {
+        this.asignaciones = asignaciones;
     }
 }
 

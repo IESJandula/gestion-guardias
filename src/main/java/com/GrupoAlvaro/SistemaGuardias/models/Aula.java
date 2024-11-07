@@ -14,9 +14,8 @@ public class Aula {
 
     private String ubicacion;
 
-    // Relación ManyToMany con Grupo, un aula puede tener varios grupos
-    @ManyToMany(mappedBy = "aulas")
-    private List<Grupo> grupos;  // Los grupos que usan esta aula
+    @OneToOne(mappedBy = "aula")
+    private Asignacion asignacion;
 
 
     public Aula() {}
@@ -30,10 +29,6 @@ public class Aula {
 
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getNombre() {
@@ -52,12 +47,12 @@ public class Aula {
         this.ubicacion = ubicacion;
     }
 
-    public List<Grupo> getGrupos() {
-        return grupos;
+    public Asignacion getAsignacion() {
+        return asignacion;
     }
 
-    public void setGrupos(List<Grupo> grupos) {
-        this.grupos = grupos;
+    public void setAsignacion(Asignacion asignacion) {
+        this.asignacion = asignacion;
     }
 }
 

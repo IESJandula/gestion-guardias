@@ -2,21 +2,18 @@ package com.GrupoAlvaro.SistemaGuardias.models;
 
 import com.GrupoAlvaro.SistemaGuardias.enums.DiaSemana;
 import com.GrupoAlvaro.SistemaGuardias.enums.Hora;
-import com.GrupoAlvaro.SistemaGuardias.enums.TipoActividad;
 import jakarta.persistence.*;
 
 @Entity
-public class Horario {
-
+public class Clase {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private DiaSemana diaSemana;
     private Hora hora;
-    private TipoActividad tipoActividad;
 
     @ManyToOne
-    @JoinColumn(name = "profesor_id")
     private Profesor profesor;
 
     @ManyToOne
@@ -25,16 +22,11 @@ public class Horario {
     @ManyToOne
     private Asignatura asignatura;
 
-    @OneToOne(mappedBy = "horario")
-    private Asignacion asignacion;
+    @OneToOne
+    private Horario horario;
 
 
-    public Horario() {}
-
-
-    public Long getId() {
-        return id;
-    }
+    public Clase() {}
 
     public DiaSemana getDiaSemana() {
         return diaSemana;
@@ -50,14 +42,6 @@ public class Horario {
 
     public void setHora(Hora hora) {
         this.hora = hora;
-    }
-
-    public TipoActividad getTipoActividad() {
-        return tipoActividad;
-    }
-
-    public void setTipoActividad(TipoActividad tipoActividad) {
-        this.tipoActividad = tipoActividad;
     }
 
     public Profesor getProfesor() {
@@ -84,11 +68,11 @@ public class Horario {
         this.asignatura = asignatura;
     }
 
-    public Asignacion getAsignacion() {
-        return asignacion;
+    public Horario getHorario() {
+        return horario;
     }
 
-    public void setAsignacion(Asignacion asignacion) {
-        this.asignacion = asignacion;
+    public void setHorario(Horario horario) {
+        this.horario = horario;
     }
 }
