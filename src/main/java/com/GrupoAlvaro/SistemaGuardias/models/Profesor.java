@@ -7,11 +7,9 @@ import java.util.List;
 @Entity
 public class Profesor {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private String email;
 
     private String nombre;
-    private String email;
 
     //Relacion unidireccional con horario
     @OneToMany(mappedBy = "profesor", cascade = CascadeType.ALL)
@@ -33,9 +31,6 @@ public class Profesor {
         this.email = email;
     }
 
-    public long getId() {
-        return id;
-    }
 
     public String getNombre() {
         return nombre;
@@ -49,9 +44,6 @@ public class Profesor {
         return email;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
 
     public List<Horario> getHorario() {
         return horario;
