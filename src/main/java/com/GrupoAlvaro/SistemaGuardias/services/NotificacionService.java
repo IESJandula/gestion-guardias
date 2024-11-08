@@ -1,5 +1,8 @@
 package com.GrupoAlvaro.SistemaGuardias.services;
 
+import com.GrupoAlvaro.SistemaGuardias.models.Notificacion;
+import com.GrupoAlvaro.SistemaGuardias.repositories.NotificacionRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -23,14 +26,17 @@ public class NotificacionService {
         return notificacionRepository.findById(id);
     }
 
+    @Transactional
     public Notificacion save(Notificacion notificacion) {
         return notificacionRepository.save(notificacion);
     }
 
+    @Transactional
     public void deleteById(Long id) {
         notificacionRepository.deleteById(id);
     }
 
+    @Transactional
     public Notificacion updateNotificacion(Long id, Notificacion updatedNotificacion) {
         return notificacionRepository.findById(id).map(notificacion -> {
             notificacion.setMensaje(updatedNotificacion.getMensaje());
