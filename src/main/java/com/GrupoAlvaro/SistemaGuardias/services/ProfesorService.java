@@ -18,8 +18,8 @@ public class ProfesorService {
         return profesorRepository.findAll();
     }
 
-    public Optional<Profesor> findByEmail(String email) {
-        return Optional.ofNullable(profesorRepository.findById(Long.parseLong(email)));
+    public Optional<Profesor> findById(Long id) {
+        return profesorRepository.findById(id);
     }
 
     @Transactional
