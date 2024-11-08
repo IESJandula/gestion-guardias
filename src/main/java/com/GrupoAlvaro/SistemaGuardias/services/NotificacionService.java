@@ -41,6 +41,6 @@ public class NotificacionService {
             notificacion.setFechaHora(updatedNotificacion.getFechaHora());
             notificacion.setJustificanteMedico(updatedNotificacion.getJustificanteMedico());
             return notificacionRepository.save(notificacion);
-        }).orElseThrow();
+        }).orElseThrow(null);
     }
 }

@@ -11,12 +11,8 @@ import java.util.Optional;
 @Service
 public class TareaService {
 
-    private final TareaRepository tareaRepository;
-
     @Autowired
-    public TareaService(TareaRepository tareaRepository) {
-        this.tareaRepository = tareaRepository;
-    }
+    private TareaRepository tareaRepository;
 
     public List<Tarea> findAll() {
         return tareaRepository.findAll();
