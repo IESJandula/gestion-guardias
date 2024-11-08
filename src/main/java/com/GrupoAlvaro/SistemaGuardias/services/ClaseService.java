@@ -1,9 +1,7 @@
 package com.GrupoAlvaro.SistemaGuardias.services;
 
 import com.GrupoAlvaro.SistemaGuardias.models.Clase;
-import com.GrupoAlvaro.SistemaGuardias.repositories.ClaseRepository;
-import com.GrupoAlvaro.SistemaGuardias.repositories.GrupoRepository;
-import com.GrupoAlvaro.SistemaGuardias.repositories.HorarioRepository;
+import com.GrupoAlvaro.SistemaGuardias.repositories.*;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,7 +14,7 @@ public class ClaseService {
 @Autowired
     private ClaseRepository claseRepository;
 @Autowired
-    private ProfesorRepository  profesorRepository;
+    private ProfesorRepository profesorRepository;
 @Autowired
     private GrupoRepository grupoRepository;
 @Autowired
