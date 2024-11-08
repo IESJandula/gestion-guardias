@@ -11,12 +11,8 @@ import java.util.Optional;
 @Service
 public class ProfesorService {
 
-    private final ProfesorRepository profesorRepository;
-
     @Autowired
-    public ProfesorService(ProfesorRepository profesorRepository) {
-        this.profesorRepository = profesorRepository;
-    }
+    private ProfesorRepository profesorRepository;
 
     public List<Profesor> findAll() {
         return profesorRepository.findAll();
