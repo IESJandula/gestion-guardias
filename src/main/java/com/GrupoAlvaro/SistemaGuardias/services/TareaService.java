@@ -2,6 +2,7 @@ package com.GrupoAlvaro.SistemaGuardias.services;
 
 import com.GrupoAlvaro.SistemaGuardias.models.Tarea;
 import com.GrupoAlvaro.SistemaGuardias.repositories.TareaRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -29,10 +30,12 @@ public class TareaService {
         return tareaRepository.save(tarea);
     }
 
+    @Transactional
     public void deleteById(Long id) {
         tareaRepository.deleteById(Math.toIntExact(id));
     }
 
+    @Transactional
     public Tarea updateTarea(Long id, Tarea updatedTarea) {
         return tareaRepository.findById(Math.toIntExact(id)).map(tarea -> {
             tarea.setDescripcion(updatedTarea.getDescripcion());
