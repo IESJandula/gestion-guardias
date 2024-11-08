@@ -1,5 +1,6 @@
 package com.GrupoAlvaro.SistemaGuardias.services;
 
+import com.GrupoAlvaro.SistemaGuardias.exception.ResourceNotFoundException;
 import com.GrupoAlvaro.SistemaGuardias.models.Notificacion;
 import com.GrupoAlvaro.SistemaGuardias.repositories.NotificacionRepository;
 import jakarta.transaction.Transactional;
@@ -11,12 +12,9 @@ import java.util.Optional;
 @Service
 public class NotificacionService {
 
-    private final NotificacionRepository notificacionRepository;
-
     @Autowired
-    public NotificacionService(NotificacionRepository notificacionRepository) {
-        this.notificacionRepository = notificacionRepository;
-    }
+    private NotificacionRepository notificacionRepository;
+
 
     public List<Notificacion> findAll() {
         return notificacionRepository.findAll();
@@ -43,6 +41,6 @@ public class NotificacionService {
             notificacion.setFechaHora(updatedNotificacion.getFechaHora());
             notificacion.setJustificanteMedico(updatedNotificacion.getJustificanteMedico());
             return notificacionRepository.save(notificacion);
-        }).orElse(null);
+        }).orElseThrow();
     }
 }
