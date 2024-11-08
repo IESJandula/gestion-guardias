@@ -26,7 +26,7 @@ public class AsignaturaService {
     }
 
     public Asignatura buscarAsignaturaById(Long id) {
-        return asignaturaRepository.findById(id).get();
+        return asignaturaRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Asignatura no encontrada"));
     }
 
     @Transactional
@@ -39,10 +39,10 @@ public class AsignaturaService {
         Optional<Asignatura> asignatura = asignaturaRepository.findById(id);
         if (asignatura.isPresent()) {
             asignatura.get().setNombre(asignaturaModificada.getNombre());
-            return asignaturaRepository.findById(id);
         }else {
             throw new ResourceNotFoundException("Asignatura no encontrada");
         }
+        return asignatura;
     }
 
 
