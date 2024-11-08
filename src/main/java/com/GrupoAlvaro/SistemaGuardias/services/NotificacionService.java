@@ -1,5 +1,7 @@
 package com.GrupoAlvaro.SistemaGuardias.services;
 
+import com.GrupoAlvaro.SistemaGuardias.models.Notificacion;
+import com.GrupoAlvaro.SistemaGuardias.repositories.NotificacionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;

@@ -1,5 +1,7 @@
 package com.GrupoAlvaro.SistemaGuardias.services;
 
+import com.GrupoAlvaro.SistemaGuardias.models.Profesor;
+import com.GrupoAlvaro.SistemaGuardias.repositories.ProfesorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -20,7 +22,7 @@ public class ProfesorService {
     }
 
     public Optional<Profesor> findByEmail(String email) {
-        return profesorRepository.findById(email);
+        return Optional.ofNullable(profesorRepository.findById(Long.parseLong(email)));
     }
 
     public Profesor save(Profesor profesor) {
@@ -28,17 +30,7 @@ public class ProfesorService {
     }
 
     public void deleteByEmail(String email) {
-        profesorRepository.deleteById(email);
+        profesorRepository.deleteById(Long.valueOf(email));
     }
 
-    public Profesor updateProfesor(String email, Profesor updatedProfesor) {
-        return profesorRepository.findById(email).map(profesor -> {
-            profesor.setNombre(updatedProfesor.getNombre());
-            profesor.setHorario(updatedProfesor.getHorario());
-            profesor.setAusencias(updatedProfesor.getAusencias());
-            profesor.setAsignacionesGuardia(updatedProfesor.getAsignacionesGuardia());
-            profesor.setContadorSustituciones(updatedProfesor.getContadorSustituciones());
-            return profesorRepository.save(profesor);
-        }).orElse(null);
-    }
 }
