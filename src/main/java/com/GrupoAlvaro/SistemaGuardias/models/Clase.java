@@ -28,6 +28,7 @@ public class Clase {
 
     public Clase() {}
 
+    public Long getId() {return id;}
     public DiaSemana getDiaSemana() {
         return diaSemana;
     }
