@@ -9,8 +9,5 @@ import java.util.Optional;
 
 @Repository
 public interface NotificacionRepository extends JpaRepository<Notificacion, Long> {
-    public Notificacion findByNombre(String nombre);
-    public Optional<Notificacion> findById(Long id);
-    public List<Notificacion> findByUsuario(Long id);
-    public List<Notificacion> findByGrupo(Long id);
+
 }
