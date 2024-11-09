@@ -14,31 +14,17 @@ public class TareaService {
     @Autowired
     private TareaRepository tareaRepository;
 
-    public List<Tarea> findAll() {
-        return tareaRepository.findAll();
-    }
-
-    public Optional<Tarea> findById(Long id) {
-        return Optional.ofNullable(tareaRepository.findById(id));
-    }
-
-    public Tarea save(Tarea tarea) {
+    @Transactional
+    public Tarea guardarTarea(Tarea tarea) {
         return tareaRepository.save(tarea);
     }
 
-    @Transactional
-    public void deleteById(Long id) {
-        tareaRepository.deleteById(Math.toIntExact(id));
+    public List<Tarea> listarTareas() {
+        return tareaRepository.findAll();
     }
 
-    @Transactional
-    public Tarea updateTarea(Long id, Tarea updatedTarea) {
-        return tareaRepository.findById(Math.toIntExact(id)).map(tarea -> {
-            tarea.setDescripcion(updatedTarea.getDescripcion());
-            tarea.setAusencia(updatedTarea.getAusencia());
-            tarea.setGrupo(updatedTarea.getGrupo());
-            tarea.setAsignatura(updatedTarea.getAsignatura());
-            return tareaRepository.save(tarea);
-        }).orElse(null);
-    }
+
+
+
+
 }

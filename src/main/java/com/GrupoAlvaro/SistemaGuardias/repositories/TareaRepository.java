@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface TareaRepository extends JpaRepository<Tarea, Integer> {
-    public Tarea findById(Long id);
+
 }
