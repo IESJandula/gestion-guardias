@@ -16,6 +16,7 @@ public class GuardiaService {
     @Autowired
     private GuardiaRepository guardiaRepository;
 
+    @Transactional
     public void crearGuardia(Guardia guardia) {
         guardiaRepository.save(guardia);
     }
@@ -33,10 +34,12 @@ public class GuardiaService {
         }
     }
 
+    @Transactional
     public void cancelarGuardia(Long id) {
         guardiaRepository.deleteById(id);
     }
 
+    @Transactional
     public Optional<Guardia> modificarGuardia(Long id, Guardia guardiaModificada) {
         Optional<Guardia> guardia = guardiaRepository.findById(id);
         if (guardia.isPresent()) {
