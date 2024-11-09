@@ -8,10 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface GuardiaRepository extends JpaRepository<Guardia, Long> {
-    public Guardia findById(Long id);
-    public Guardia save(Guardia guardia);
-    public Guardia deleteById(Long id);
-    public Guardia update(Guardia guardia);
 
-    void delete(Long id);
 }
