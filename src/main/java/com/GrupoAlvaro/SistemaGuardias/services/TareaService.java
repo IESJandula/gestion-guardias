@@ -37,7 +37,7 @@ public class TareaService {
     public Optional<Tarea> actualizarTarea(Long id, Tarea tareaModificada) {
         Optional<Tarea> tarea = tareaRepository.findById(id);
         if (tarea.isPresent()) {
-            tarea.get().setNombre(tareaModificada.getNombre());
+            tarea.get().setDescripcion(tareaModificada.getDescripcion());
         }else {
             throw new ResourceNotFoundException("Tarea no encontrada");
         }
