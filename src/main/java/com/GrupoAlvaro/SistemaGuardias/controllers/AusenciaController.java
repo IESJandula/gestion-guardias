@@ -30,13 +30,20 @@ public class AusenciaController {
     }
 
     @GetMapping("/mostrar/{fecha}")
-    public ResponseEntity<String> mostrarAusencias(@RequestParam LocalDate fecha) {
+    public ResponseEntity<String> mostrarAusencias(@PathVariable LocalDate fecha) {
         try {
-           ausenciaService.buscarAusenciasByFecha(fecha);
-           return ResponseEntity.ok("Esta es la lista de ausencias");
+
+            Optional<List<Ausencia>> ausencias = ausenciaService.buscarAusenciasByFecha(fecha);
+
+            if (ausencias.isPresent() && !ausencias.get().isEmpty()) {
+                return ResponseEntity.ok("Esta es la lista de ausencias");
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No se encontraron ausencias para este día");
+            }
 
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error ausencia no encontrada");
+
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error inesperado al procesar la solicitud");
         }
     }
 }
