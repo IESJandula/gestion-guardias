@@ -8,13 +8,14 @@ import java.util.List;
 public class AusenciaDTO {
 
     private String profesorEmail;
-    private LocalDate fecha;
+    private LocalDate fechaInicio, fechaFin;
     private List<Hora> horas;
     private List<DetalleAusenciaDTO> detalles;
 
-    public AusenciaDTO(String profesorEmail, LocalDate fecha, List<Hora> horas, List<DetalleAusenciaDTO> detalles) {
+    public AusenciaDTO(String profesorEmail, LocalDate fechaInicio, LocalDate fechaFin, List<Hora> horas, List<DetalleAusenciaDTO> detalles) {
         this.profesorEmail = profesorEmail;
-        this.fecha = fecha;
+        this.fechaInicio = fechaInicio;
+        this.fechaFin = fechaFin;
         this.horas = horas;
         this.detalles = detalles;
     }
@@ -27,12 +28,20 @@ public class AusenciaDTO {
         this.profesorEmail = profesorEmail;
     }
 
-    public LocalDate getFecha() {
-        return fecha;
+    public LocalDate getFechaInicio() {
+        return fechaInicio;
     }
 
-    public void setFecha(LocalDate fecha) {
-        this.fecha = fecha;
+    public void setFechaInicio(LocalDate fechaInicio) {
+        this.fechaInicio = fechaInicio;
+    }
+
+    public LocalDate getFechaFin() {
+        return fechaFin;
+    }
+
+    public void setFechaFin(LocalDate fechaFin) {
+        this.fechaFin = fechaFin;
     }
 
     public List<Hora> getHoras() {
