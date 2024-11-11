@@ -21,6 +21,14 @@ public class Profesor {
     @OneToMany(mappedBy = "profesor")
     private List<Asignacion> asignacionesGuardia;
 
+    @ManyToMany
+    @JoinTable(
+            name = "profesor_asignatura",
+            joinColumns = @JoinColumn(name = "profesor_id"),
+            inverseJoinColumns = @JoinColumn(name = "asignatura_id")
+    )
+    private List<Asignatura> asignaturas;
+
     private Long contadorSustituciones;
 
 

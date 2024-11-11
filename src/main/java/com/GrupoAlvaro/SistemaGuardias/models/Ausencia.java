@@ -27,6 +27,15 @@ public class Ausencia {
     @OneToMany(mappedBy = "ausencia")
     private List<Asignacion> asignaciones;
 
+    @ManyToMany
+    @JoinTable(
+            name = "grupo_ausencia",
+            joinColumns = @JoinColumn(name = "ausencia_id"),
+            inverseJoinColumns = @JoinColumn(name = "grupo_id")
+    )
+    private List<Grupo> gruposAusentes;
+
+
 
     public Ausencia() {}
 
