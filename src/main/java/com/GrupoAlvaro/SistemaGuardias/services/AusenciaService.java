@@ -22,7 +22,7 @@ public class AusenciaService {
     private AusenciaRepository ausenciaRepository;
 
     @Autowired
-    private ProfesorRepository profesorRepository;
+    private ProfesorService profesorService;
 
     public List<Ausencia> listarAusencias() {
         return ausenciaRepository.findAll();
@@ -53,7 +53,7 @@ public class AusenciaService {
     @Transactional
     public void registrarAusencia(AusenciaDTO ausenciaDTO) {
 
-        Profesor profesor = profesorRepository.findByEmail(ausenciaDTO.getProfesorEmail());
+        Profesor profesor = profesorService.buscarProfesorById(ausenciaDTO.getProfesorEmail());
         if(profesor == null){
             throw new ResourceNotFoundException("Profesor no encontrado");
         }

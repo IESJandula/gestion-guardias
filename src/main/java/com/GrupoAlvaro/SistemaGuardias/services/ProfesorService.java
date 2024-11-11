@@ -25,18 +25,18 @@ public class ProfesorService {
         return profesorRepository.findAll();
     }
 
-    public Profesor buscarProfesorById(Long id) {
+    public Profesor buscarProfesorById(String id) {
         return profesorRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Profesor no encontrado"));
     }
 
     @Transactional
-    public void eliminarProfesor(Long id) {
-        profesorRepository.deleteById(id);
+    public void eliminarProfesor(String email) {
+        profesorRepository.deleteById(email);
     }
 
     @Transactional
-    public Optional<Profesor> actualizarProfesor(Long id, Profesor profesorModificado) {
-        Optional<Profesor> profesor = profesorRepository.findById(id);
+    public Optional<Profesor> actualizarProfesor(String email, Profesor profesorModificado) {
+        Optional<Profesor> profesor = profesorRepository.findById(email);
         if (profesor.isPresent()) {
             profesor.get().setNombre(profesorModificado.getNombre());
         }else {
