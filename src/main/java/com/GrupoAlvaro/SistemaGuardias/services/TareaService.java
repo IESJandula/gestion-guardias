@@ -1,5 +1,6 @@
 package com.GrupoAlvaro.SistemaGuardias.services;
 
+import com.GrupoAlvaro.SistemaGuardias.exception.ResourceNotFoundException;
 import com.GrupoAlvaro.SistemaGuardias.models.Tarea;
 import com.GrupoAlvaro.SistemaGuardias.repositories.TareaRepository;
 import jakarta.transaction.Transactional;
@@ -23,6 +24,25 @@ public class TareaService {
         return tareaRepository.findAll();
     }
 
+    public Tarea buscarTareaPorId(Long id) {
+        return tareaRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Tarea no encontrada"));
+    }
+
+    @Transactional
+    public void eliminarTarea(Long id) {
+        tareaRepository.deleteById(id);
+    }
+
+    @Transactional
+    public Optional<Tarea> actualizarTarea(Long id, Tarea tareaModificada) {
+        Optional<Tarea> tarea = tareaRepository.findById(id);
+        if (tarea.isPresent()) {
+            tarea.get().setNombre(tareaModificada.getNombre());
+        }else {
+            throw new ResourceNotFoundException("Tarea no encontrada");
+        }
+        return tarea;
+    }
 
 
 
