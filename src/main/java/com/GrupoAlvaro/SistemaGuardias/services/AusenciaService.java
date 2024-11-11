@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.swing.text.html.Option;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -69,7 +71,21 @@ public class AusenciaService {
     }
 
 
+    public Optional<List<Ausencia>> buscarAusenciasByFecha(LocalDate fecha) {
+        // Lista para almacenar las ausencias encontradas
+        List<Ausencia> ausenciasHoy = new ArrayList<>();
 
+        // Obtener todas las ausencias de una sola vez (idealmente esto debería ser hecho con un filtro en la base de datos)
+        List<Ausencia> todasLasAusencias = ausenciaRepository.findAll();
 
+        // Filtrar las ausencias para encontrar las que coinciden con la fecha
+        for (Ausencia ausencia : todasLasAusencias) {
+            if (ausencia.getFechaInicio().isEqual(fecha)) {
+                ausenciasHoy.add(ausencia);
+            }
+        }
 
+        // Retornar las ausencias encontradas envueltas en un Optional
+        return ausenciasHoy.isEmpty() ? Optional.empty() : Optional.of(ausenciasHoy);
+    }
 }
