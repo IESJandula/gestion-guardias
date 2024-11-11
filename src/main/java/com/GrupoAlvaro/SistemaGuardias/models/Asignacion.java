@@ -24,6 +24,14 @@ public class Asignacion {
     @OneToOne
     private Aula aula;
 
+    @OneToOne
+    @JoinColumn(name = "guardia_id") // Nombre de la columna que será la clave foránea en Asignacion
+    private Guardia guardia;
+
+    @OneToOne
+    @JoinColumn(name = "horario_id") // Nombre de la columna que será la clave foránea en Asignacion
+    private Horario horario;
+
 
     public Asignacion() {}
 
