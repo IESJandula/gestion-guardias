@@ -7,35 +7,24 @@ import java.util.List;
 
 public class AusenciaDTO {
 
-    private Long id;
-    private String profesorNombre;
+    private String profesorEmail;
     private LocalDate fecha;
     private List<Hora> horas;
     private List<DetalleAusenciaDTO> detalles;
 
-    public AusenciaDTO(Long id, String profesorNombre, LocalDate fecha, List<Hora> horas, List<DetalleAusenciaDTO> detalles) {
-        this.id = id;
-        this.profesorNombre = profesorNombre;
+    public AusenciaDTO(String profesorEmail, LocalDate fecha, List<Hora> horas, List<DetalleAusenciaDTO> detalles) {
+        this.profesorEmail = profesorEmail;
         this.fecha = fecha;
         this.horas = horas;
         this.detalles = detalles;
     }
 
-    // Getters y Setters
-    public Long getId() {
-        return id;
+    public String getProfesorEmail() {
+        return profesorEmail;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getProfesorNombre() {
-        return profesorNombre;
-    }
-
-    public void setProfesorNombre(String profesorNombre) {
-        this.profesorNombre = profesorNombre;
+    public void setProfesorEmail(String profesorEmail) {
+        this.profesorEmail = profesorEmail;
     }
 
     public LocalDate getFecha() {
