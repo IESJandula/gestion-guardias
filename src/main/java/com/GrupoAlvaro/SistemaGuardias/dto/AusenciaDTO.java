@@ -1,6 +1,7 @@
 package com.GrupoAlvaro.SistemaGuardias.dto;
 
 import com.GrupoAlvaro.SistemaGuardias.enums.Hora;
+import com.GrupoAlvaro.SistemaGuardias.models.Tarea;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -10,9 +11,9 @@ public class AusenciaDTO {
     private String profesorEmail;
     private LocalDate fechaInicio, fechaFin;
     private List<Hora> horas;
-    private List<DetalleAusenciaDTO> detalles;
+    private List<Tarea> detalles;
 
-    public AusenciaDTO(String profesorEmail, LocalDate fechaInicio, LocalDate fechaFin, List<Hora> horas, List<DetalleAusenciaDTO> detalles) {
+    public AusenciaDTO(String profesorEmail, LocalDate fechaInicio, LocalDate fechaFin, List<Hora> horas, List<Tarea> detalles) {
         this.profesorEmail = profesorEmail;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
@@ -52,11 +53,11 @@ public class AusenciaDTO {
         this.horas = horas;
     }
 
-    public List<DetalleAusenciaDTO> getDetalles() {
+    public List<Tarea> getDetalles() {
         return detalles;
     }
 
-    public void setDetalles(List<DetalleAusenciaDTO> detalles) {
+    public void setDetalles(List<Tarea> detalles) {
         this.detalles = detalles;
     }
 }
