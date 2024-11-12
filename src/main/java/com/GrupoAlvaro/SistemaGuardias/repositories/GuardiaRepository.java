@@ -9,7 +9,4 @@ import java.util.Optional;
 @Repository
 public interface GuardiaRepository extends JpaRepository<Guardia, Long> {
     public Guardia save(Guardia guardia);
-    public Guardia update(Guardia guardia);
-
-    void delete(Long id);
 }
