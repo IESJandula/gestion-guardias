@@ -16,7 +16,7 @@ public class Ausencia {
     private LocalDate fechaFin;
 
     @ElementCollection
-    private List<Integer> horas; // Lista de horas afectadas
+    private List<Hora> horas; // Lista de horas afectadas
 
     @ManyToOne
     private Profesor profesorAusente;
@@ -27,14 +27,24 @@ public class Ausencia {
     @OneToMany(mappedBy = "ausencia")
     private List<Asignacion> asignaciones;
 
+    @ManyToMany
+    @JoinTable(
+            name = "grupo_ausencia",
+            joinColumns = @JoinColumn(name = "ausencia_id"),
+            inverseJoinColumns = @JoinColumn(name = "grupo_id")
+    )
+    private List<Grupo> gruposAusentes;
+
+
 
     public Ausencia() {}
 
 
-    public Ausencia(Profesor profesorAusente, LocalDate fechaInicio, LocalDate fechaFin) {
+    public Ausencia(Profesor profesorAusente, LocalDate fechaInicio, LocalDate fechaFin, List<Hora> horas) {
         this.profesorAusente = profesorAusente;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
+        this.horas = horas;
     }
 
 
@@ -58,13 +68,7 @@ public class Ausencia {
         this.fechaFin = fechaFin;
     }
 
-    public List<Integer> getHoras() {
-        return horas;
-    }
 
-    public void setHoras(List<Integer> horas) {
-        this.horas = horas;
-    }
 
     public Profesor getProfesorAusente() {
         return profesorAusente;

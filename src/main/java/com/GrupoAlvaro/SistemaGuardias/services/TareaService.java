@@ -1,5 +1,6 @@
 package com.GrupoAlvaro.SistemaGuardias.services;
 
+import com.GrupoAlvaro.SistemaGuardias.exception.ResourceNotFoundException;
 import com.GrupoAlvaro.SistemaGuardias.models.Tarea;
 import com.GrupoAlvaro.SistemaGuardias.repositories.TareaRepository;
 import jakarta.transaction.Transactional;
@@ -14,31 +15,36 @@ public class TareaService {
     @Autowired
     private TareaRepository tareaRepository;
 
-    public List<Tarea> findAll() {
-        return tareaRepository.findAll();
-    }
-
-    public Optional<Tarea> findById(Long id) {
-        return Optional.ofNullable(tareaRepository.findById(id));
-    }
-
-    public Tarea save(Tarea tarea) {
+    @Transactional
+    public Tarea guardarTarea(Tarea tarea) {
         return tareaRepository.save(tarea);
     }
 
-    @Transactional
-    public void deleteById(Long id) {
-        tareaRepository.deleteById(Math.toIntExact(id));
+    public List<Tarea> listarTareas() {
+        return tareaRepository.findAll();
+    }
+
+    public Tarea buscarTareaPorId(Long id) {
+        return tareaRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Tarea no encontrada"));
     }
 
     @Transactional
-    public Tarea updateTarea(Long id, Tarea updatedTarea) {
-        return tareaRepository.findById(Math.toIntExact(id)).map(tarea -> {
-            tarea.setDescripcion(updatedTarea.getDescripcion());
-            tarea.setAusencia(updatedTarea.getAusencia());
-            tarea.setGrupo(updatedTarea.getGrupo());
-            tarea.setAsignatura(updatedTarea.getAsignatura());
-            return tareaRepository.save(tarea);
-        }).orElse(null);
+    public void eliminarTarea(Long id) {
+        tareaRepository.deleteById(id);
     }
+
+    @Transactional
+    public Optional<Tarea> actualizarTarea(Long id, Tarea tareaModificada) {
+        Optional<Tarea> tarea = tareaRepository.findById(id);
+        if (tarea.isPresent()) {
+            tarea.get().setDescripcion(tareaModificada.getDescripcion());
+        }else {
+            throw new ResourceNotFoundException("Tarea no encontrada");
+        }
+        return tarea;
+    }
+
+
+
+
 }

@@ -15,32 +15,38 @@ public class NotificacionService {
     @Autowired
     private NotificacionRepository notificacionRepository;
 
-
-    public List<Notificacion> findAll() {
-        return notificacionRepository.findAll();
-    }
-
-    public Optional<Notificacion> findById(Long id) {
-        return notificacionRepository.findById(id);
-    }
-
     @Transactional
-    public Notificacion save(Notificacion notificacion) {
+    public Notificacion guardarNotificacion(Notificacion notificacion) {
         return notificacionRepository.save(notificacion);
     }
 
-    @Transactional
-    public void deleteById(Long id) {
-        notificacionRepository.deleteById(id);
+    public List<Notificacion> listarNotificaciones() {
+        return notificacionRepository.findAll();
     }
 
     @Transactional
-    public Notificacion updateNotificacion(Long id, Notificacion updatedNotificacion) {
-        return notificacionRepository.findById(id).map(notificacion -> {
-            notificacion.setMensaje(updatedNotificacion.getMensaje());
-            notificacion.setFechaHora(updatedNotificacion.getFechaHora());
-            notificacion.setJustificanteMedico(updatedNotificacion.getJustificanteMedico());
-            return notificacionRepository.save(notificacion);
-        }).orElseThrow(null);
+    public Notificacion buscarNotificacionPorId(Long id) {
+        Optional<Notificacion> notificacion = notificacionRepository.findById(id);
+        if (notificacion.isPresent()) {
+            return notificacion.get();
+        }else {
+            throw new ResourceNotFoundException("No se encontro el notificacion con el id " + id);
+        }
     }
+
+    @Transactional
+    public void eliminarNotificacion(Long id) {
+        Notificacion notificacion = buscarNotificacionPorId(id);
+        notificacionRepository.delete(notificacion);
+    }
+
+    @Transactional
+    public Notificacion actualizarNotificacion(Long id, Notificacion notificacionNueva) {
+        Notificacion notificacion = buscarNotificacionPorId(id);
+        notificacion.setFechaHora(notificacionNueva.getFechaHora());
+        notificacion.setMensaje(notificacionNueva.getMensaje());
+        return notificacionRepository.save(notificacion);
+    }
+
+
 }
