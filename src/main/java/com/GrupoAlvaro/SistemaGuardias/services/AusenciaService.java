@@ -5,6 +5,7 @@ import com.GrupoAlvaro.SistemaGuardias.exception.ResourceNotFoundException;
 import com.GrupoAlvaro.SistemaGuardias.models.Ausencia;
 import com.GrupoAlvaro.SistemaGuardias.models.Profesor;
 import com.GrupoAlvaro.SistemaGuardias.repositories.AusenciaRepository;
+import com.GrupoAlvaro.SistemaGuardias.repositories.ProfesorRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,9 @@ import java.util.Optional;
 public class AusenciaService {
 
     @Autowired
+    private ProfesorRepository profesorRepository;
+
+    @Autowired
     private AusenciaRepository ausenciaRepository;
 
     @Autowired
@@ -29,58 +33,37 @@ public class AusenciaService {
 
 
     @Transactional
+    public void registrarAusencia(AusenciaDTO ausenciaDTO) {
+        Profesor profesor = profesorRepository.findByEmail(ausenciaDTO.getProfesorEmail()).orElseThrow(() -> new RuntimeException("Profesor no encontrado"));
+        Ausencia ausencia = new Ausencia(profesor, ausenciaDTO.getFechaInicio(), ausenciaDTO.getFechaFin(), ausenciaDTO.getHoras());
+        ausenciaRepository.save(ausencia);
+    }
+
+    public List<Ausencia> listarAusencias() {
+        return ausenciaRepository.findAll();
+    }
+
+    public List<Ausencia> listarAusenciasPorProfesor(String email) {
+        Profesor profesor = profesorRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("Profesor no encontrado"));
+        return ausenciaRepository.findByProfesor(profesor);
+    }
+
+    @Transactional
+    public void actualizarAusencia(Long id, AusenciaDTO ausenciaDTO) {
+        Optional<Ausencia> ausenciaOpt = ausenciaRepository.findById(id);
+        if (ausenciaOpt.isPresent()) {
+            Ausencia ausencia = ausenciaOpt.get();
+            Profesor profesor = profesorRepository.findByEmail(ausenciaDTO.getProfesorEmail()).orElseThrow(() -> new RuntimeException("Profesor no encontrado"));
+            ausencia.setProfesorAusente(ausencia.getProfesorAusente());
+            ausencia.setFechaInicio(ausenciaDTO.getFechaInicio());
+            ausencia.setFechaFin(ausenciaDTO.getFechaFin());
+            ausenciaRepository.save(ausencia);
+        }
+    }
+
+    @Transactional
     public void eliminarAusencia(Long id) {
         ausenciaRepository.deleteById(id);
-    }
-
-    @Transactional
-    public Optional<Ausencia> modificarAusencia(Long id, Ausencia ausenciaModificada) {
-        Optional<Ausencia> ausencia = ausenciaRepository.findById(id);
-        if(ausencia.isPresent()){
-            ausencia.get().setFechaInicio(ausenciaModificada.getFechaInicio());
-            ausencia.get().setFechaFin(ausenciaModificada.getFechaFin());
-            ausenciaRepository.save(ausencia.get());
-        }else {
-            throw new ResourceNotFoundException("Ausencia no encontrada");
-        }
-        return ausencia;
-    }
-
-    @Transactional
-    public void registrarAusencia(AusenciaDTO ausenciaDTO) {
-
-        Profesor profesor = profesorService.buscarProfesorById(ausenciaDTO.getProfesorEmail());
-        if(profesor == null){
-            throw new ResourceNotFoundException("Profesor no encontrado");
-        }
-
-        Ausencia ausencia = new Ausencia(
-                profesor,
-                ausenciaDTO.getFechaInicio(),
-                ausenciaDTO.getFechaFin(),
-                ausenciaDTO.getHoras());
-
-        ausenciaRepository.save(ausencia);
-
-    }
-
-
-    public Optional<List<Ausencia>> buscarAusenciasByFecha(LocalDate fecha) {
-        // Lista para almacenar las ausencias encontradas
-        List<Ausencia> ausenciasHoy = new ArrayList<>();
-
-        // Obtener todas las ausencias de una sola vez (idealmente esto debería ser hecho con un filtro en la base de datos)
-        List<Ausencia> todasLasAusencias = ausenciaRepository.findAll();
-
-        // Filtrar las ausencias para encontrar las que coinciden con la fecha
-        for (Ausencia ausencia : todasLasAusencias) {
-            if (ausencia.getFechaInicio().isEqual(fecha)) {
-                ausenciasHoy.add(ausencia);
-            }
-        }
-
-        // Retornar las ausencias encontradas envueltas en un Optional
-        return ausenciasHoy.isEmpty() ? Optional.empty() : Optional.of(ausenciasHoy);
     }
 
 }
