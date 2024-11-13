@@ -29,10 +29,6 @@ public class AsignacionService {
         return asignacionDTO;
     }
 
-    public List<Asignacion> listarAsignaciones(LocalDate fecha) {
-        // Aquí deberías filtrar las asignaciones por fecha, por ejemplo, suponiendo que tienes un campo 'fecha' en la entidad
-        return asignacionRepository.findByFecha(fecha); // Método en el repositorio que debes implementar
-    }
 
     @Transactional
     public void eliminarAsignacion(Long asignacionId) {
