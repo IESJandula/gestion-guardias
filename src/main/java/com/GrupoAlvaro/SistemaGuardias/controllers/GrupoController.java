@@ -18,6 +18,7 @@ public class GrupoController {
     @Autowired
     GrupoService grupoService;
 
+    @PostMapping("/registrar")
     public ResponseEntity<String> registrarGrupo(@RequestBody GrupoDTO grupo){
         try {
             grupoService.crearGrupo(grupo);
