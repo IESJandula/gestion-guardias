@@ -1,5 +1,6 @@
 package com.GrupoAlvaro.SistemaGuardias.services;
 
+import com.GrupoAlvaro.SistemaGuardias.dto.AsignaturaDTO;
 import com.GrupoAlvaro.SistemaGuardias.exception.ResourceNotFoundException;
 import com.GrupoAlvaro.SistemaGuardias.models.Asignatura;
 import com.GrupoAlvaro.SistemaGuardias.repositories.AsignaturaRepository;
@@ -17,8 +18,8 @@ public class AsignaturaService {
     private AsignaturaRepository asignaturaRepository;
 
     @Transactional
-    public void guardarAsignatura(Asignatura asignatura) {
-        asignaturaRepository.save(asignatura);
+    public void guardarAsignatura(AsignaturaDTO asignaturaDTO) {
+        return asignaturaDTO;
     }
 
     public List<Asignatura> listarAsignaturas() {

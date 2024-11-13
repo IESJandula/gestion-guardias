@@ -9,8 +9,7 @@ public class AsignaturaDTO {
 
     public AsignaturaDTO() {}
 
-    public AsignaturaDTO(Long id, String nombre) {
-        this.id = id;
+    public AsignaturaDTO(String nombre) {
         this.nombre = nombre;
     }
 
