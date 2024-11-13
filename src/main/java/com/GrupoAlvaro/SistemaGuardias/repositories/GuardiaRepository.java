@@ -8,5 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface GuardiaRepository extends JpaRepository<Guardia, Long> {
-
+    public Guardia save(Guardia guardia);
 }

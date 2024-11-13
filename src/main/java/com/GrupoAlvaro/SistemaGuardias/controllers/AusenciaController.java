@@ -3,6 +3,7 @@ package com.GrupoAlvaro.SistemaGuardias.controllers;
 import com.GrupoAlvaro.SistemaGuardias.dto.AusenciaDTO;
 import com.GrupoAlvaro.SistemaGuardias.models.Ausencia;
 import com.GrupoAlvaro.SistemaGuardias.services.AusenciaService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.core.Local;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,7 @@ import java.util.Optional;
 @RequestMapping("/ausencias")
 public class AusenciaController {
 
+    @Autowired
     private AusenciaService ausenciaService;
 
 
