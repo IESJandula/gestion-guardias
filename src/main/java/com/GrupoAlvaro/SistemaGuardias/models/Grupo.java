@@ -31,7 +31,7 @@ public class Grupo {
     private List<Tarea> tareas;
 
     @ManyToMany(mappedBy = "gruposAusentes")
-    @JsonBackReference
+
     private List<Ausencia> ausencias;
 
 

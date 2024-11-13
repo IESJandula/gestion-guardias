@@ -24,7 +24,6 @@ public class Ausencia {
     private Profesor profesorAusente;
 
     @OneToMany(mappedBy = "ausencia")
-    @JsonBackReference
     private List<Tarea> tareas;
 
     @OneToMany(mappedBy = "ausencia")

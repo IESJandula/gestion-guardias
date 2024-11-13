@@ -35,20 +35,6 @@ public class AusenciaController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al registrar la ausencia");
         }
     }
-
-    @GetMapping("/mostrar/{id}")
-    public ResponseEntity<Ausencia> mostrarAusencia(@PathVariable Long id) {
-        try {
-            Optional<Ausencia> ausencia = ausenciaService.listarAusenciaById(id);
-            if (ausencia.isPresent()) {
-                return ResponseEntity.ok(ausencia.get());
-            } else {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-            }
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-        }
-    }
 }
 
 
