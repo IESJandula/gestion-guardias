@@ -3,33 +3,23 @@ package com.GrupoAlvaro.SistemaGuardias.dto;
 import java.util.List;
 
 public class GrupoDTO {
-
-    private Long id;
     private String nombre;
-    private boolean esConflictivo;
+    private String datos;
+    private static boolean esConflictivo;
 
     public GrupoDTO() {}
 
-    public GrupoDTO(Long id, String nombre, boolean esConflictivo) {
-        this.id = id;
+    public GrupoDTO(String nombre, String datos) {
         this.nombre = nombre;
-        this.esConflictivo = esConflictivo;
+        this.datos = datos;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public boolean isEsConflictivo() {
-        return esConflictivo;
-    }
-
-    public void setEsConflictivo(boolean esConflictivo) {
-        this.esConflictivo = esConflictivo;
+    public boolean traducirConflictivo(String datos) {
+        if(datos=="Si"){
+            return esConflictivo=true;
+        }else {
+            return esConflictivo = false;
+        }
     }
 
     public String getNombre() {
@@ -39,4 +29,17 @@ public class GrupoDTO {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
+
+    public static boolean isEsConflictivo() {
+        return esConflictivo;
+    }
+
+    public String getDatos() {
+        return datos;
+    }
+
+    public void setDatos(String datos) {
+        this.datos = datos;
+    }
 }
+

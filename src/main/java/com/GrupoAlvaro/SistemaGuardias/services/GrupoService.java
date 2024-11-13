@@ -1,5 +1,6 @@
 package com.GrupoAlvaro.SistemaGuardias.services;
 
+import com.GrupoAlvaro.SistemaGuardias.dto.GrupoDTO;
 import com.GrupoAlvaro.SistemaGuardias.models.Clase;
 import com.GrupoAlvaro.SistemaGuardias.models.Grupo;
 import com.GrupoAlvaro.SistemaGuardias.repositories.AusenciaRepository;
@@ -29,7 +30,9 @@ public class GrupoService {
 
     //Operaciones Crud
     //Metodo para crear un grupo
-    public Grupo crearGrupo(Grupo grupo) {return grupoRepository.save(grupo);
+    public Grupo crearGrupo(GrupoDTO grupo) {
+        Grupo g = new Grupo(grupo.getNombre(), grupo.traducirConflictivo(grupo.getDatos()));
+        return grupoRepository.save(g);
     }
 
     //Metodo para borrar un grupo
