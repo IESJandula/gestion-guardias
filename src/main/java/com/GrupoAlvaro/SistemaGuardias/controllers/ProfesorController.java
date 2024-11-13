@@ -18,7 +18,7 @@ public class ProfesorController {
     private ProfesorService profesorService;
 
     @PostMapping("/registrar")
-    public ResponseEntity<String> registrarAusencia(@RequestBody Profesor profesor) {
+    public ResponseEntity<String> registrarProfesor(@RequestBody Profesor profesor) {
         try {
             profesorService.guardarProfesor(profesor);
             return ResponseEntity.ok("Profesor registrado exitosamente");

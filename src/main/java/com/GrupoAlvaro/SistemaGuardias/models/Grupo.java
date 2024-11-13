@@ -13,7 +13,7 @@ public class Grupo {
 
     private String nombre;  // Ejemplo: "1A", "2B"
 
-    private boolean esConflictivo;
+    private String esConflictivo;
 
     @ManyToMany
     @JoinTable(
@@ -35,9 +35,17 @@ public class Grupo {
 
     public Grupo() {}
 
-    public Grupo(String nombre, boolean esConflictivo) {
+    public Grupo(String nombre, String esConflictivo) {
         this.nombre = nombre;
         this.esConflictivo = esConflictivo;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getEsConflictivo() {
+        return esConflictivo;
     }
 
     // Getters y Setters
@@ -53,11 +61,11 @@ public class Grupo {
         this.nombre = nombre;
     }
 
-    public boolean isEsConflictivo() {
+    public String isEsConflictivo() {
         return esConflictivo;
     }
 
-    public void setEsConflictivo(boolean esConflictivo) {
+    public void setEsConflictivo(String esConflictivo) {
         this.esConflictivo = esConflictivo;
     }
 
