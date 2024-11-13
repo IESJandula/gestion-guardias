@@ -9,6 +9,5 @@ import java.util.List;
 
 @Repository
 public interface AsignacionRepository extends JpaRepository<Asignacion, Long> {
-    List<Asignacion> findByFecha(LocalDate fecha);
 
 }
