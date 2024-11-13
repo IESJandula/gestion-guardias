@@ -15,12 +15,13 @@ public class GrupoDTO {
     }
 
     public boolean traducirConflictivo(String datos) {
-        if(datos=="Si"){
-            return esConflictivo=true;
-        }else {
+        if ("Si".equals(datos)) {
+            return esConflictivo = true;
+        } else {
             return esConflictivo = false;
         }
     }
+
 
     public String getNombre() {
         return nombre;
