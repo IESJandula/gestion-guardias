@@ -6,14 +6,12 @@ public class AsignaturaDTO {
 
     private Long id;
     private String nombre;
-    private List<Long> gruposIds;
 
     public AsignaturaDTO() {}
 
-    public AsignaturaDTO(Long id, String nombre, List<Long> gruposIds) {
+    public AsignaturaDTO(Long id, String nombre) {
         this.id = id;
         this.nombre = nombre;
-        this.gruposIds = gruposIds;
     }
 
     public Long getId() {
@@ -30,13 +28,5 @@ public class AsignaturaDTO {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
-    }
-
-    public List<Long> getGruposIds() {
-        return gruposIds;
-    }
-
-    public void setGruposIds(List<Long> gruposIds) {
-        this.gruposIds = gruposIds;
     }
 }
