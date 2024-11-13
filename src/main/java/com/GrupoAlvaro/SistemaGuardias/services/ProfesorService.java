@@ -1,13 +1,12 @@
 package com.GrupoAlvaro.SistemaGuardias.services;
 
 import com.GrupoAlvaro.SistemaGuardias.exception.ResourceNotFoundException;
-import com.GrupoAlvaro.SistemaGuardias.models.Asignatura;
 import com.GrupoAlvaro.SistemaGuardias.models.Profesor;
 import com.GrupoAlvaro.SistemaGuardias.repositories.ProfesorRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.List;
+
 import java.util.Optional;
 
 @Service
@@ -21,8 +20,8 @@ public class ProfesorService {
         profesorRepository.save(profesor);
     }
 
-    public List<Profesor> listarProfesores() {
-        return profesorRepository.findAll();
+    public Optional<Profesor> listarProfesores(String email) {
+        return profesorRepository.findById(email);
     }
 
     public Profesor buscarProfesorById(String id) {

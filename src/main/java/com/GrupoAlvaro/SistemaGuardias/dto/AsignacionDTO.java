@@ -6,12 +6,12 @@ import com.GrupoAlvaro.SistemaGuardias.enums.TipoAsignacion;
 
 public class AsignacionDTO {
 
-    private Long profesorId;
+    private String profesorId;
     private Long tareaId;
     private Long guardiaId;
-    private String tipoAsignacion; // "Guardia", "Clase", etc.
-    private String diaSemana; // Lunes, Martes, etc.
-    private String hora; // Hora de la asignación
+    private TipoAsignacion tipoAsignacion; // "Guardia", "Clase", etc.
+    private DiaSemana diaSemana; // Lunes, Martes, etc.
+    private Hora hora; // Hora de la asignación
     private Long aulaId; // ID del aula asignada
 
     // Getters y setters
@@ -19,7 +19,7 @@ public class AsignacionDTO {
         return profesorId;
     }
 
-    public void setProfesorId(Long profesorId) {
+    public void setProfesorId(String profesorId) {
         this.profesorId = profesorId;
     }
 
@@ -43,7 +43,7 @@ public class AsignacionDTO {
         return tipoAsignacion;
     }
 
-    public void setTipoAsignacion(String tipoAsignacion) {
+    public void setTipoAsignacion(TipoAsignacion tipoAsignacion) {
         this.tipoAsignacion = tipoAsignacion;
     }
 
@@ -51,7 +51,7 @@ public class AsignacionDTO {
         return diaSemana;
     }
 
-    public void setDiaSemana(String diaSemana) {
+    public void setDiaSemana(DiaSemana diaSemana) {
         this.diaSemana = diaSemana;
     }
 
@@ -59,7 +59,7 @@ public class AsignacionDTO {
         return hora;
     }
 
-    public void setHora(String hora) {
+    public void setHora(Hora hora) {
         this.hora = hora;
     }
 
