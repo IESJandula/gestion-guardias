@@ -25,6 +25,15 @@ public class Clase {
     @OneToOne
     private Horario horario;
 
+    public Clase(Long id, DiaSemana diaSemana, Hora hora, Profesor profesor, Asignatura asignatura, Grupo grupo, Horario horario) {
+        this.id = id;
+        this.diaSemana = diaSemana;
+        this.hora = hora;
+        this.profesor = profesor;
+        this.asignatura = asignatura;
+        this.grupo = grupo;
+        this.horario = horario;
+    }
 
     public Clase() {}
 

@@ -17,6 +17,7 @@ public class Notificacion {
     private byte[] justificanteMedico;
 
     public Notificacion() {}
+
     public Notificacion(String mensaje, byte[] justificanteMedico) {
         this.mensaje = mensaje;
         this.justificanteMedico = justificanteMedico;

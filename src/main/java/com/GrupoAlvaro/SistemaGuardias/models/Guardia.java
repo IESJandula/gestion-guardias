@@ -20,6 +20,14 @@ public class Guardia {
     @OneToOne(mappedBy = "guardia")
     private Asignacion asignacion;
 
+    public Guardia(Long id, String diaSemana, Profesor profesor, int hora, Horario horario, Asignacion asignacion) {
+        this.id = id;
+        this.diaSemana = diaSemana;
+        this.profesor = profesor;
+        this.hora = hora;
+        this.horario = horario;
+        this.asignacion = asignacion;
+    }
 
     public Guardia() {}
 

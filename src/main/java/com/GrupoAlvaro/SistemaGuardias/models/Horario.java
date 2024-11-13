@@ -28,9 +28,18 @@ public class Horario {
     @OneToOne(mappedBy = "horario")
     private Asignacion asignacion;
 
+    public Horario(Long id, DiaSemana diaSemana, Hora hora, Profesor profesor, TipoActividad tipoActividad, Grupo grupo, Asignatura asignatura, Asignacion asignacion) {
+        this.id = id;
+        this.diaSemana = diaSemana;
+        this.hora = hora;
+        this.profesor = profesor;
+        this.tipoActividad = tipoActividad;
+        this.grupo = grupo;
+        this.asignatura = asignatura;
+        this.asignacion = asignacion;
+    }
 
     public Horario() {}
-
 
     public Long getId() {
         return id;
