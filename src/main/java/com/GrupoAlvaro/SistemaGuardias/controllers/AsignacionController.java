@@ -33,21 +33,6 @@ public class AsignacionController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(respuesta);
         }
     }
-
-    // Mostrar asignaciones por fecha
-    @GetMapping("/mostrar/{fecha}")
-    public ResponseEntity<List<Asignacion>> mostrarAsignaciones(@PathVariable LocalDate fecha) {
-        try {
-            List<Asignacion> asignaciones = asignacionService.listarAsignaciones(fecha);
-            if (asignaciones.isEmpty()) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(asignaciones); // No es necesario enviar 'null'
-            }
-            return ResponseEntity.ok(asignaciones);
-        } catch (Exception e) {
-            // Mejor manejo del error con el mensaje de excepción
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-        }
-    }
 }
 
 
