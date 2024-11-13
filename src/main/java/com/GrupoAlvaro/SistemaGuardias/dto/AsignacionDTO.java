@@ -14,6 +14,17 @@ public class AsignacionDTO {
     private Hora hora; // Hora de la asignación
     private Long aulaId; // ID del aula asignada
 
+    public AsignacionDTO(String profesorId, Long tareaId, Long guardiaId, TipoAsignacion tipoAsignacion, DiaSemana diaSemana, Hora hora, Long aulaId) {
+        this.profesorId = profesorId;
+        this.tareaId = tareaId;
+        this.guardiaId = guardiaId;
+        this.tipoAsignacion = tipoAsignacion;
+        this.diaSemana = diaSemana;
+        this.hora = hora;
+        this.aulaId = aulaId;
+    }
+    public AsignacionDTO() {}
+
     // Getters y setters
     public String getProfesorId() {
         return profesorId;
