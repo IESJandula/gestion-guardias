@@ -5,17 +5,14 @@ import com.GrupoAlvaro.SistemaGuardias.exception.ResourceNotFoundException;
 import com.GrupoAlvaro.SistemaGuardias.models.Ausencia;
 import com.GrupoAlvaro.SistemaGuardias.models.Profesor;
 import com.GrupoAlvaro.SistemaGuardias.repositories.AusenciaRepository;
-import com.GrupoAlvaro.SistemaGuardias.repositories.ProfesorRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class AusenciaService {
@@ -26,13 +23,10 @@ public class AusenciaService {
     @Autowired
     private ProfesorService profesorService;
 
-    public List<Ausencia> listarAusencias() {
-        return ausenciaRepository.findAll();
-    }
-
-    public Optional<Ausencia> buscarAusenciaById(Long id) {
+    public Optional<Ausencia> listarAusenciaById(Long id) {
         return ausenciaRepository.findById(id);
     }
+
 
     @Transactional
     public void eliminarAusencia(Long id) {
@@ -88,4 +82,5 @@ public class AusenciaService {
         // Retornar las ausencias encontradas envueltas en un Optional
         return ausenciasHoy.isEmpty() ? Optional.empty() : Optional.of(ausenciasHoy);
     }
+
 }

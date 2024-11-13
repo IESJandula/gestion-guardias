@@ -1,9 +1,11 @@
 package com.GrupoAlvaro.SistemaGuardias.models;
 
 import com.GrupoAlvaro.SistemaGuardias.enums.Hora;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.List;
 
 @Entity
@@ -22,6 +24,7 @@ public class Ausencia {
     private Profesor profesorAusente;
 
     @OneToMany(mappedBy = "ausencia")
+    @JsonBackReference
     private List<Tarea> tareas;
 
     @OneToMany(mappedBy = "ausencia")
@@ -93,6 +96,7 @@ public class Ausencia {
     public void setAsignaciones(List<Asignacion> asignaciones) {
         this.asignaciones = asignaciones;
     }
+
 }
 
 

@@ -1,5 +1,6 @@
 package com.GrupoAlvaro.SistemaGuardias.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -11,6 +12,7 @@ public class Tarea {
     private String descripcion;
 
     @ManyToOne
+    @JsonIgnore
     private Ausencia ausencia;
 
     @ManyToOne

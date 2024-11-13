@@ -1,5 +1,6 @@
 package com.GrupoAlvaro.SistemaGuardias.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -30,6 +31,7 @@ public class Grupo {
     private List<Tarea> tareas;
 
     @ManyToMany(mappedBy = "gruposAusentes")
+    @JsonBackReference
     private List<Ausencia> ausencias;
 
 

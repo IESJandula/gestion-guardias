@@ -1,7 +1,9 @@
 package com.GrupoAlvaro.SistemaGuardias.controllers;
 
 import com.GrupoAlvaro.SistemaGuardias.dto.AusenciaDTO;
+import com.GrupoAlvaro.SistemaGuardias.dto.DetalleAusenciaDTO;
 import com.GrupoAlvaro.SistemaGuardias.models.Ausencia;
+import com.GrupoAlvaro.SistemaGuardias.models.Profesor;
 import com.GrupoAlvaro.SistemaGuardias.services.AusenciaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.core.Local;
@@ -10,8 +12,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/ausencias")
@@ -31,21 +36,19 @@ public class AusenciaController {
         }
     }
 
-    @GetMapping("/mostrar/{fecha}")
-    public ResponseEntity<String> mostrarAusencias(@PathVariable LocalDate fecha) {
+    @GetMapping("/mostrar/{id}")
+    public ResponseEntity<Ausencia> mostrarAusencia(@PathVariable Long id) {
         try {
-
-            Optional<List<Ausencia>> ausencias = ausenciaService.buscarAusenciasByFecha(fecha);
-
-            if (ausencias.isPresent() && !ausencias.get().isEmpty()) {
-                return ResponseEntity.ok("Esta es la lista de ausencias");
+            Optional<Ausencia> ausencia = ausenciaService.listarAusenciaById(id);
+            if (ausencia.isPresent()) {
+                return ResponseEntity.ok(ausencia.get());
             } else {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No se encontraron ausencias para este día");
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
             }
-
         } catch (Exception e) {
-
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error inesperado al procesar la solicitud");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
 }
+
+
