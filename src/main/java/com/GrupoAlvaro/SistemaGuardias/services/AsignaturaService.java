@@ -18,7 +18,8 @@ public class AsignaturaService {
     private AsignaturaRepository asignaturaRepository;
 
     @Transactional
-    public void guardarAsignatura(AsignaturaDTO asignaturaDTO) {
+    public AsignaturaDTO guardarAsignatura(AsignaturaDTO asignaturaDTO) {
+
         return asignaturaDTO;
     }
 
