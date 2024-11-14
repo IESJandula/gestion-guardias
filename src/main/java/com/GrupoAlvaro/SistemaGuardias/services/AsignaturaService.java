@@ -1,7 +1,6 @@
 package com.GrupoAlvaro.SistemaGuardias.services;
 
 import com.GrupoAlvaro.SistemaGuardias.dto.AsignaturaDTO;
-import com.GrupoAlvaro.SistemaGuardias.exception.ResourceNotFoundException;
 import com.GrupoAlvaro.SistemaGuardias.models.Asignatura;
 import com.GrupoAlvaro.SistemaGuardias.repositories.AsignaturaRepository;
 import jakarta.transaction.Transactional;
