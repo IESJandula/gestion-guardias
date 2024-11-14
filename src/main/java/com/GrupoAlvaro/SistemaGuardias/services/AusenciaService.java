@@ -34,7 +34,7 @@ public class AusenciaService {
 
     @Transactional
     public void registrarAusencia(AusenciaDTO ausenciaDTO) {
-        Profesor profesor = profesorRepository.findByEmail(ausenciaDTO.getProfesorEmail()).orElseThrow(() -> new RuntimeException("Profesor no encontrado"));
+        Profesor profesor = (Profesor) profesorRepository.findByEmail(ausenciaDTO.getProfesorEmail()).orElseThrow(() -> new RuntimeException("Profesor no encontrado"));
         Ausencia ausencia = new Ausencia(profesor, ausenciaDTO.getFechaInicio(), ausenciaDTO.getFechaFin(), ausenciaDTO.getHoras());
         ausenciaRepository.save(ausencia);
     }
@@ -44,8 +44,8 @@ public class AusenciaService {
     }
 
     public List<Ausencia> listarAusenciasPorProfesor(String email) {
-        Profesor profesor = profesorRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("Profesor no encontrado"));
-        return ausenciaRepository.findByProfesor(profesor);
+        Profesor profesor = (Profesor) profesorRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("Profesor no encontrado"));
+        return ausenciaRepository.findByProfesorAusente(profesor);
     }
 
     @Transactional
@@ -53,7 +53,7 @@ public class AusenciaService {
         Optional<Ausencia> ausenciaOpt = ausenciaRepository.findById(id);
         if (ausenciaOpt.isPresent()) {
             Ausencia ausencia = ausenciaOpt.get();
-            Profesor profesor = profesorRepository.findByEmail(ausenciaDTO.getProfesorEmail()).orElseThrow(() -> new RuntimeException("Profesor no encontrado"));
+            Profesor profesor = (Profesor) profesorRepository.findByEmail(ausenciaDTO.getProfesorEmail()).orElseThrow(() -> new RuntimeException("Profesor no encontrado"));
             ausencia.setProfesorAusente(ausencia.getProfesorAusente());
             ausencia.setFechaInicio(ausenciaDTO.getFechaInicio());
             ausencia.setFechaFin(ausenciaDTO.getFechaFin());

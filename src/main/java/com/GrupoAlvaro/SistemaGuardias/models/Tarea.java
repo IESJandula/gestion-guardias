@@ -19,12 +19,15 @@ public class Tarea {
     @ManyToOne
     private Asignatura asignatura;
 
+    public Tarea(Long id, String descripcion, Ausencia ausencia, Grupo grupo, Asignatura asignatura) {
+        this.id = id;
+        this.descripcion = descripcion;
+        this.ausencia = ausencia;
+        this.grupo = grupo;
+        this.asignatura = asignatura;
+    }
 
     public Tarea() {}
-
-    public Tarea(String descripcion) {
-        this.descripcion = descripcion;
-    }
 
     public Long getId() {
         return id;

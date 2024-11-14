@@ -24,6 +24,10 @@ public class Grupo {
     )
     private List<Asignatura> asignaturas;
 
+    @ManyToOne
+    @JoinColumn(name = "profesor_id")
+    private Profesor profesor; //relacion con el profesor
+
     @OneToMany(mappedBy = "grupo")
     private List<Clase> clases;
 
@@ -31,7 +35,6 @@ public class Grupo {
     private List<Tarea> tareas;
 
     @ManyToMany(mappedBy = "gruposAusentes")
-
     private List<Ausencia> ausencias;
 
 
@@ -50,7 +53,14 @@ public class Grupo {
         return esConflictivo;
     }
 
-    // Getters y Setters
+    public Profesor getProfesor() {
+        return profesor;
+    }
+
+    public void setProfesor(Profesor profesor) {
+        this.profesor = profesor;
+    }
+
     public Long getId() {
         return id;
     }

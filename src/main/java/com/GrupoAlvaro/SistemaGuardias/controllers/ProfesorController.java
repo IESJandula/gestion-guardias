@@ -1,5 +1,6 @@
 package com.GrupoAlvaro.SistemaGuardias.controllers;
 
+import com.GrupoAlvaro.SistemaGuardias.dto.ProfesorDTO;
 import com.GrupoAlvaro.SistemaGuardias.models.Profesor;
 import com.GrupoAlvaro.SistemaGuardias.services.ProfesorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ public class ProfesorController {
     @Autowired
     private ProfesorService profesorService;
 
+    // Crear Profesor
     @PostMapping("/registrar")
     public ResponseEntity<String> registrarProfesor(@RequestBody Profesor profesor) {
         try {
@@ -27,18 +29,40 @@ public class ProfesorController {
         }
     }
 
+    // Listar todos los profesores
+    @GetMapping("/listar")
+    public ResponseEntity<List<Profesor>> listarProfesores() {
+        List<Profesor> profesores = profesorService.listarProfesores();
+        return ResponseEntity.ok(profesores);
+    }
+
+    // Buscar profesor por email
     @GetMapping("/mostrar/{email}")
-    public ResponseEntity<Profesor> mostrarProfesores(@PathVariable String email) {
+    public ResponseEntity<Object> obtenerProfesor(@PathVariable String email) {
+        Optional<Object> profesor = profesorService.obtenerProfesor(email);
+        return profesor.map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body(null));
+    }
+
+    // Actualizar un profesor
+    @PutMapping("/actualizar/{id}")
+    public ResponseEntity<String> actualizarProfesor(@PathVariable Long id, @RequestBody ProfesorDTO profesorDTO) {
         try {
-            Optional<Profesor> profesores = profesorService.listarProfesores(email);
-            if (profesores.isPresent()) {
-                return ResponseEntity.ok(profesores.get());
-            } else {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-            }
+            profesorService.actualizarProfesor(id, profesorDTO);
+            return ResponseEntity.ok("Profesor actualizado exitosamente");
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al actualizar el profesor");
         }
     }
 
+    // Eliminar un profesor
+    @DeleteMapping("/eliminar/{id}")
+    public ResponseEntity<String> eliminarProfesor(@PathVariable Long id) {
+        try {
+            profesorService.eliminarProfesor(id);
+            return ResponseEntity.ok("Profesor eliminado exitosamente");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al eliminar el profesor");
+        }
+    }
 }
