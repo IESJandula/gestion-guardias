@@ -1,6 +1,5 @@
 package com.GrupoAlvaro.SistemaGuardias.dto;
 
-import java.util.List;
 
 public class AsignaturaDTO {
 

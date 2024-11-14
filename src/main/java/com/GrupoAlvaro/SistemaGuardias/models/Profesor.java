@@ -1,31 +1,42 @@
 package com.GrupoAlvaro.SistemaGuardias.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.List;
 
 @Entity
 public class Profesor {
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     private String email;
 
     private String nombre;
 
-    //Relacion unidireccional con horario
+    // Relación unidireccional con horario
     @OneToMany(mappedBy = "profesor", cascade = CascadeType.ALL)
     private List<Horario> horario;
 
     @OneToMany(mappedBy = "profesorAusente")
+    @JsonManagedReference
     private List<Ausencia> ausencias;
 
     @OneToMany(mappedBy = "profesor")
     private List<Asignacion> asignacionesGuardia;
 
+    @OneToMany(mappedBy = "profesor", cascade = CascadeType.ALL)
+    @JsonBackReference
+    private List<Grupo> grupo;  // Aquí se mapea con "profesor" de Grupo
+
     @ManyToMany
     @JoinTable(
-            name = "profesor_asignatura",
-            joinColumns = @JoinColumn(name = "profesor_id"),
-            inverseJoinColumns = @JoinColumn(name = "asignatura_id")
+            name = "profesor_asignatura", // Nombre de la tabla intermedia
+            joinColumns = @JoinColumn(name = "profesor_id"),  // Columna que referencia a profesor
+            inverseJoinColumns = @JoinColumn(name = "asignatura_id")  // Columna que referencia a asignatura
     )
     private List<Asignatura> asignaturas;
 
@@ -34,11 +45,33 @@ public class Profesor {
 
     public Profesor() {}
 
-    public Profesor(String nombre, String email) {
-        this.nombre = nombre;
+    public Profesor(Long id, String email, String nombre, List<Horario> horario, List<Ausencia> ausencias, List<Asignacion> asignacionesGuardia, List<Grupo> grupo, List<Asignatura> asignaturas, Long contadorSustituciones) {
+        this.id = id;
         this.email = email;
+        this.nombre = nombre;
+        this.horario = horario;
+        this.ausencias = ausencias;
+        this.asignacionesGuardia = asignacionesGuardia;
+        this.grupo = grupo;
+        this.asignaturas = asignaturas;
+        this.contadorSustituciones = contadorSustituciones;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public List<Grupo> getGrupo() {
+        return grupo;
+    }
+
+    public void setGrupo(List<Grupo> grupo) {
+        this.grupo = grupo;
+    }
 
     public String getNombre() {
         return nombre;
@@ -52,6 +85,17 @@ public class Profesor {
         return email;
     }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public List<Asignatura> getAsignaturas() {
+        return asignaturas;
+    }
+
+    public void setAsignaturas(List<Asignatura> asignaturas) {
+        this.asignaturas = asignaturas;
+    }
 
     public List<Horario> getHorario() {
         return horario;

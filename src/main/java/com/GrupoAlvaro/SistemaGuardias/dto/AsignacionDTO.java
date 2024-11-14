@@ -6,7 +6,7 @@ import com.GrupoAlvaro.SistemaGuardias.enums.TipoAsignacion;
 
 public class AsignacionDTO {
 
-    private String profesorId;
+    private Long profesorId;
     private Long tareaId;
     private Long guardiaId;
     private TipoAsignacion tipoAsignacion; // "Guardia", "Clase", etc.
@@ -14,7 +14,7 @@ public class AsignacionDTO {
     private Hora hora; // Hora de la asignación
     private Long aulaId; // ID del aula asignada
 
-    public AsignacionDTO(String profesorId, Long tareaId, Long guardiaId, TipoAsignacion tipoAsignacion, DiaSemana diaSemana, Hora hora, Long aulaId) {
+    public AsignacionDTO(Long profesorId, Long tareaId, Long guardiaId, TipoAsignacion tipoAsignacion, DiaSemana diaSemana, Hora hora, Long aulaId) {
         this.profesorId = profesorId;
         this.tareaId = tareaId;
         this.guardiaId = guardiaId;
@@ -26,11 +26,11 @@ public class AsignacionDTO {
     public AsignacionDTO() {}
 
     // Getters y setters
-    public String getProfesorId() {
+    public Long getProfesorId() {
         return profesorId;
     }
 
-    public void setProfesorId(String profesorId) {
+    public void setProfesorId(Long profesorId) {
         this.profesorId = profesorId;
     }
 

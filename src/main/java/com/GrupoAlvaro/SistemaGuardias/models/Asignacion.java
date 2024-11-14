@@ -16,6 +16,7 @@ public class Asignacion {
     private Hora hora;
 
     @ManyToOne
+    @JoinColumn(name = "profesor_id")
     private Profesor profesor;
 
     @ManyToOne
