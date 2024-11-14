@@ -38,8 +38,8 @@ public class ProfesorController {
 
     // Buscar profesor por email
     @GetMapping("/mostrar/{email}")
-    public ResponseEntity<Object> obtenerProfesor(@PathVariable String email) {
-        Optional<Object> profesor = profesorService.obtenerProfesor(email);
+    public ResponseEntity<Profesor> obtenerProfesor(@PathVariable String email) {
+        Optional<Profesor> profesor = profesorService.obtenerProfesor(email);
         return profesor.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body(null));
     }

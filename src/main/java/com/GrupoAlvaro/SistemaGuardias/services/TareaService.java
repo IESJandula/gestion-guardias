@@ -16,8 +16,8 @@ public class TareaService {
     private TareaRepository tareaRepository;
 
     @Transactional
-    public Tarea guardarTarea(Tarea tarea) {
-        return tareaRepository.save(tarea);
+    public void guardarTarea(Tarea tarea) {
+        tareaRepository.save(tarea);
     }
 
     public List<Tarea> listarTareas() {

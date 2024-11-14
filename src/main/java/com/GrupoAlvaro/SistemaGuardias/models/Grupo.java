@@ -33,6 +33,7 @@ public class Grupo {
     private List<Clase> clases;
 
     @OneToMany(mappedBy = "grupo")
+    @JsonManagedReference
     private List<Tarea> tareas;
 
     @ManyToMany(mappedBy = "gruposAusentes")

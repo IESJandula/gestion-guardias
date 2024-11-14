@@ -37,7 +37,7 @@ public class ProfesorService {
         return profesorRepository.findAll();
     }
 
-    public Optional<Object> obtenerProfesor(String email) {
+    public Optional<Profesor> obtenerProfesor(String email) {
         return profesorRepository.findByEmail(email);
     }
 

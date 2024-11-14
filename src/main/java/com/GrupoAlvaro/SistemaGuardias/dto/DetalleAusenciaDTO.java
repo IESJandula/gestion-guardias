@@ -11,6 +11,7 @@ public class DetalleAusenciaDTO {
     private String tarea;
     private Hora hora;
 
+    // Constructor y Getters/Setters
     public DetalleAusenciaDTO(Long grupoId, String grupoNombre, Long asignaturaId, String asignaturaNombre, String tarea, Hora hora) {
         this.grupoId = grupoId;
         this.grupoNombre = grupoNombre;
@@ -20,7 +21,6 @@ public class DetalleAusenciaDTO {
         this.hora = hora;
     }
 
-    // Getters y Setters
     public Long getGrupoId() {
         return grupoId;
     }
@@ -69,4 +69,5 @@ public class DetalleAusenciaDTO {
         this.hora = hora;
     }
 }
+
 
