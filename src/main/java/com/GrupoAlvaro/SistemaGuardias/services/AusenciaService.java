@@ -2,6 +2,7 @@ package com.GrupoAlvaro.SistemaGuardias.services;
 
 import com.GrupoAlvaro.SistemaGuardias.dto.AusenciaDTO;
 import com.GrupoAlvaro.SistemaGuardias.dto.DetalleAusenciaDTO;
+import com.GrupoAlvaro.SistemaGuardias.dto.NotificacionDTO;
 import com.GrupoAlvaro.SistemaGuardias.exception.ResourceNotFoundException;
 import com.GrupoAlvaro.SistemaGuardias.models.Ausencia;
 import com.GrupoAlvaro.SistemaGuardias.models.Profesor;
@@ -34,6 +35,9 @@ public class AusenciaService {
     @Autowired
     private TareaRepository tareaRepository;
 
+    @Autowired
+    private NotificacionService notificacionService;
+
     public Optional<Ausencia> listarAusenciaById(Long id) {
         return ausenciaRepository.findById(id);
     }
@@ -47,6 +51,15 @@ public class AusenciaService {
         // Crear y guardar la ausencia
         Ausencia ausencia = new Ausencia(profesor, ausenciaDTO.getFechaInicio(), ausenciaDTO.getFechaFin(), ausenciaDTO.getHoras());
         ausenciaRepository.save(ausencia);
+
+        // Crear y guardar la notificación asociada
+        NotificacionDTO notificacionDTO = new NotificacionDTO();
+        notificacionDTO.setProfesorId(profesor.getId());
+        notificacionDTO.setMensaje("El profesor no podrá asistir por motivos de salud.");
+        notificacionDTO.setJustificanteMedico(ausenciaDTO.getJustificanteMedico());
+
+        // Llamada al servicio de notificación para crearla
+        notificacionService.crearNotificacion(notificacionDTO);
 
         // Guardar y asociar las tareas a la ausencia
         for (DetalleAusenciaDTO detalle : ausenciaDTO.getDetalles()) {

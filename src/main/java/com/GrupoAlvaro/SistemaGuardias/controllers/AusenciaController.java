@@ -22,9 +22,9 @@ public class AusenciaController {
     public ResponseEntity<String> registrarAusencia(@RequestBody AusenciaDTO ausenciaDTO) {
         try {
             ausenciaService.registrarAusencia(ausenciaDTO);
-            return ResponseEntity.ok("Ausencia registrada exitosamente");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al registrar la ausencia");
+            return ResponseEntity.ok("Ausencia registrada correctamente y notificación enviada.");
+        } catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al registrar la ausencia.");
         }
     }
 

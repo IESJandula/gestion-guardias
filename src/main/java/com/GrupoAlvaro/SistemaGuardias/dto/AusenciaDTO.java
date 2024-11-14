@@ -11,13 +11,15 @@ public class AusenciaDTO {
     private LocalDate fechaInicio, fechaFin;
     private List<Hora> horas;
     private List<DetalleAusenciaDTO> detalles;
+    private byte[] justificanteMedico;
 
-    public AusenciaDTO(String profesorEmail, LocalDate fechaInicio, LocalDate fechaFin, List<Hora> horas, List<DetalleAusenciaDTO> detalles) {
+    public AusenciaDTO(String profesorEmail, LocalDate fechaInicio, LocalDate fechaFin, List<Hora> horas, List<DetalleAusenciaDTO> detalles, byte[] justificanteMedico) {
         this.profesorEmail = profesorEmail;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
         this.horas = horas;
         this.detalles = detalles;
+        this.justificanteMedico = justificanteMedico;
     }
 
     public String getProfesorEmail() {
@@ -58,6 +60,14 @@ public class AusenciaDTO {
 
     public void setDetalles(List<DetalleAusenciaDTO> detalles) {
         this.detalles = detalles;
+    }
+
+    public byte[] getJustificanteMedico() {
+        return justificanteMedico;
+    }
+
+    public void setJustificanteMedico(byte[] justificanteMedico) {
+        this.justificanteMedico = justificanteMedico;
     }
 }
 
