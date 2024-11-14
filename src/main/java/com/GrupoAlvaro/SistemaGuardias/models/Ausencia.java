@@ -21,6 +21,7 @@ public class Ausencia {
     private List<Hora> horas; // Lista de horas afectadas
 
     @ManyToOne
+    @JsonBackReference
     private Profesor profesorAusente;
 
     @OneToMany(mappedBy = "ausencia")

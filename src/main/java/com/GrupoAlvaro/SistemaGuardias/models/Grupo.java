@@ -1,6 +1,6 @@
 package com.GrupoAlvaro.SistemaGuardias.models;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -26,6 +26,7 @@ public class Grupo {
 
     @ManyToOne
     @JoinColumn(name = "profesor_id")
+    @JsonManagedReference
     private Profesor profesor; //relacion con el profesor
 
     @OneToMany(mappedBy = "grupo")

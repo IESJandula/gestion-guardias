@@ -6,6 +6,14 @@ public class NotificacionDTO {
     private byte[] justificanteMedico;
     private Long profesorId; // ID del profesor relacionado
 
+    public NotificacionDTO(String mensaje, byte[] justificanteMedico, Long profesorId) {
+        this.mensaje = mensaje;
+        this.justificanteMedico = justificanteMedico;
+        this.profesorId = profesorId;
+    }
+
+    public NotificacionDTO() {}
+
     // Getters y setters
 
     public String getMensaje() {

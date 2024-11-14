@@ -1,5 +1,7 @@
 package com.GrupoAlvaro.SistemaGuardias.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -20,12 +22,14 @@ public class Profesor {
     private List<Horario> horario;
 
     @OneToMany(mappedBy = "profesorAusente")
+    @JsonManagedReference
     private List<Ausencia> ausencias;
 
     @OneToMany(mappedBy = "profesor")
     private List<Asignacion> asignacionesGuardia;
 
-    @OneToMany(mappedBy = "profesor")  // Relación con Grupo
+    @OneToMany(mappedBy = "profesor", cascade = CascadeType.ALL)
+    @JsonBackReference
     private List<Grupo> grupo;  // Aquí se mapea con "profesor" de Grupo
 
     @ManyToMany

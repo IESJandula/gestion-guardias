@@ -1,5 +1,7 @@
 package com.GrupoAlvaro.SistemaGuardias.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -13,6 +15,7 @@ public class Asignatura {
     private String nombre;
 
     @ManyToMany(mappedBy = "asignaturas")
+    @JsonBackReference
     private List<Grupo> grupos;
 
     @ManyToMany(mappedBy = "asignaturas")
