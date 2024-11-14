@@ -1,6 +1,6 @@
 package com.GrupoAlvaro.SistemaGuardias.services;
 
-import com.GrupoAlvaro.SistemaGuardias.models.Clase;
+import com.GrupoAlvaro.SistemaGuardias.dto.GrupoDTO;
 import com.GrupoAlvaro.SistemaGuardias.models.Grupo;
 import com.GrupoAlvaro.SistemaGuardias.repositories.AusenciaRepository;
 import com.GrupoAlvaro.SistemaGuardias.repositories.ClaseRepository;
@@ -27,47 +27,33 @@ public class GrupoService {
     @Autowired
     private AusenciaRepository ausenciaRepository;
 
-    //Operaciones Crud
-    //Metodo para crear un grupo
-    public Grupo crearGrupo(Grupo grupo) {return grupoRepository.save(grupo);
+
+    @Transactional
+    public void crearGrupo(Grupo grupo) {
+         grupoRepository.save(grupo);
     }
 
-    //Metodo para borrar un grupo
-    @Transactional
-    public void eliminarGrupo(Long id) {
-        Optional<Grupo> grupo = grupoRepository.findById(id);
-        if (grupo.isPresent()) {
-            System.out.println("Eliminando el grupo con id: " + id);
-            claseRepository.deleteById(id);
-        } else {
-            System.out.println("El grupo con esta id"+id +" o existe");
-        }}
+    public List<Grupo> listarGrupos() {
+        return grupoRepository.findAll();
+    }
 
-
-    //Metodos para mostrar cosas
-    //Metodo para mostrar todas las clases
-    @Transactional
-    public List<Grupo> mostrarClases() {return grupoRepository.findAll();}
-
-    //Metodo para mostrar el grupo con id especifica
-    @Transactional
-    public Grupo mostrarGrupoPorId(Long id) {
-        return grupoRepository.findById(id).orElseThrow(() -> new RuntimeException("Grupo no encontrado con el ID: " + id));
+    public Optional<Grupo> obtenerGrupo(String nombre) {
+        return grupoRepository.findByNombre(nombre);
     }
 
     //Metodo para actualizar el grupo
     @Transactional
-    public Grupo modificarGrupo(Long id, Grupo grupoActualizado) {
-        Grupo grupo = grupoRepository.findById(id).orElseThrow(() -> new RuntimeException("Clase no encontrada con el ID: " + id));
-
-        grupo.setNombre(grupoActualizado.getNombre());
-        grupo.setEsConflictivo(grupoActualizado.isEsConflictivo());
-        grupo.setAsignaturas(grupoActualizado.getAsignaturas());
-        grupo.setClases(grupoActualizado.getClases());
-        grupo.setTareas(grupoActualizado.getTareas());
-        grupo.setAusencias(grupoActualizado.getAusencias());
-
-        return grupoRepository.save(grupo);
+    public void actualizarGrupo(String nombre, GrupoDTO grupoDTO) {
+        Optional<Grupo> grupoOpt = grupoRepository.findByNombre(nombre);
+        if (grupoOpt.isPresent()) {
+            Grupo grupo = grupoOpt.get();
+            grupo.setEsConflictivo(grupoDTO.getDatos());
+            grupoRepository.save(grupo);
+        }
     }
 
+    @Transactional
+    public void eliminarGrupo(Long id) {
+        grupoRepository.deleteById(id);
+    }
 }

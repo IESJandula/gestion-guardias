@@ -1,5 +1,6 @@
 package com.GrupoAlvaro.SistemaGuardias.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -13,7 +14,7 @@ public class Grupo {
 
     private String nombre;  // Ejemplo: "1A", "2B"
 
-    private boolean esConflictivo;
+    private String esConflictivo;
 
     @ManyToMany
     @JoinTable(
@@ -23,10 +24,16 @@ public class Grupo {
     )
     private List<Asignatura> asignaturas;
 
+    @ManyToOne
+    @JoinColumn(name = "profesor_id")
+    @JsonManagedReference
+    private Profesor profesor; //relacion con el profesor
+
     @OneToMany(mappedBy = "grupo")
     private List<Clase> clases;
 
     @OneToMany(mappedBy = "grupo")
+    @JsonManagedReference
     private List<Tarea> tareas;
 
     @ManyToMany(mappedBy = "gruposAusentes")
@@ -35,12 +42,27 @@ public class Grupo {
 
     public Grupo() {}
 
-    public Grupo(String nombre, boolean esConflictivo) {
+    public Grupo(String nombre, String esConflictivo) {
         this.nombre = nombre;
         this.esConflictivo = esConflictivo;
     }
 
-    // Getters y Setters
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getEsConflictivo() {
+        return esConflictivo;
+    }
+
+    public Profesor getProfesor() {
+        return profesor;
+    }
+
+    public void setProfesor(Profesor profesor) {
+        this.profesor = profesor;
+    }
+
     public Long getId() {
         return id;
     }
@@ -53,11 +75,11 @@ public class Grupo {
         this.nombre = nombre;
     }
 
-    public boolean isEsConflictivo() {
+    public String isEsConflictivo() {
         return esConflictivo;
     }
 
-    public void setEsConflictivo(boolean esConflictivo) {
+    public void setEsConflictivo(String esConflictivo) {
         this.esConflictivo = esConflictivo;
     }
 

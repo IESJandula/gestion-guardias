@@ -2,7 +2,6 @@ package com.GrupoAlvaro.SistemaGuardias.models;
 
 import jakarta.persistence.*;
 
-import java.util.List;
 
 @Entity
 public class Aula {

@@ -9,13 +9,24 @@ public class AsignacionDTO {
     private Long profesorId;
     private Long tareaId;
     private Long guardiaId;
-    private String tipoAsignacion; // "Guardia", "Clase", etc.
-    private String diaSemana; // Lunes, Martes, etc.
-    private String hora; // Hora de la asignación
+    private TipoAsignacion tipoAsignacion; // "Guardia", "Clase", etc.
+    private DiaSemana diaSemana; // Lunes, Martes, etc.
+    private Hora hora; // Hora de la asignación
     private Long aulaId; // ID del aula asignada
 
+    public AsignacionDTO(Long profesorId, Long tareaId, Long guardiaId, TipoAsignacion tipoAsignacion, DiaSemana diaSemana, Hora hora, Long aulaId) {
+        this.profesorId = profesorId;
+        this.tareaId = tareaId;
+        this.guardiaId = guardiaId;
+        this.tipoAsignacion = tipoAsignacion;
+        this.diaSemana = diaSemana;
+        this.hora = hora;
+        this.aulaId = aulaId;
+    }
+    public AsignacionDTO() {}
+
     // Getters y setters
-    public String getProfesorId() {
+    public Long getProfesorId() {
         return profesorId;
     }
 
@@ -43,7 +54,7 @@ public class AsignacionDTO {
         return tipoAsignacion;
     }
 
-    public void setTipoAsignacion(String tipoAsignacion) {
+    public void setTipoAsignacion(TipoAsignacion tipoAsignacion) {
         this.tipoAsignacion = tipoAsignacion;
     }
 
@@ -51,7 +62,7 @@ public class AsignacionDTO {
         return diaSemana;
     }
 
-    public void setDiaSemana(String diaSemana) {
+    public void setDiaSemana(DiaSemana diaSemana) {
         this.diaSemana = diaSemana;
     }
 
@@ -59,7 +70,7 @@ public class AsignacionDTO {
         return hora;
     }
 
-    public void setHora(String hora) {
+    public void setHora(Hora hora) {
         this.hora = hora;
     }
 

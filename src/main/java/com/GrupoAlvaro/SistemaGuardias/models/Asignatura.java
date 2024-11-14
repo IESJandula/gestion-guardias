@@ -1,5 +1,6 @@
 package com.GrupoAlvaro.SistemaGuardias.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -13,6 +14,7 @@ public class Asignatura {
     private String nombre;
 
     @ManyToMany(mappedBy = "asignaturas")
+    @JsonBackReference
     private List<Grupo> grupos;
 
     @ManyToMany(mappedBy = "asignaturas")
@@ -23,6 +25,16 @@ public class Asignatura {
 
     @OneToMany(mappedBy = "asignatura")
     private List<Tarea> tareas;
+
+    public Asignatura(Long id, String nombre, List<Grupo> grupos, List<Profesor> profesores, List<Clase> clases, List<Tarea> tareas) {
+        this.id = id;
+        this.nombre = nombre;
+        this.grupos = grupos;
+        this.profesores = profesores;
+        this.clases = clases;
+        this.tareas = tareas;
+    }
+    public Asignatura() {}
 
     // Getters y Setters
     public Long getId() {

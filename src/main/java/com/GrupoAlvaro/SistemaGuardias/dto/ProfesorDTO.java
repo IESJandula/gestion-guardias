@@ -7,6 +7,15 @@ public class ProfesorDTO {
     private String asignatura;
     private String grupo;
 
+    public ProfesorDTO(String nombre, String email, String asignatura, String grupo) {
+        this.nombre = nombre;
+        this.email = email;
+        this.asignatura = asignatura;
+        this.grupo = grupo;
+    }
+
+    public ProfesorDTO() {}
+
     // Getters y setters
     public String getNombre() {
         return nombre;

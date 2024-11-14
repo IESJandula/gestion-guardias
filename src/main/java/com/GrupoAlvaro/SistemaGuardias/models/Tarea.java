@@ -1,5 +1,7 @@
 package com.GrupoAlvaro.SistemaGuardias.models;
 
+import com.GrupoAlvaro.SistemaGuardias.enums.Hora;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 @Entity
@@ -10,21 +12,31 @@ public class Tarea {
 
     private String descripcion;
 
+    @Enumerated(EnumType.STRING)
+    private Hora hora;
+
     @ManyToOne
+    @JsonBackReference
     private Ausencia ausencia;
 
     @ManyToOne
+    @JsonBackReference
     private Grupo grupo;
 
     @ManyToOne
+    @JsonBackReference
     private Asignatura asignatura;
 
+    public Tarea(Long id, String descripcion, Hora hora, Ausencia ausencia, Grupo grupo, Asignatura asignatura) {
+        this.id = id;
+        this.descripcion = descripcion;
+        this.hora = hora;
+        this.ausencia = ausencia;
+        this.grupo = grupo;
+        this.asignatura = asignatura;
+    }
 
     public Tarea() {}
-
-    public Tarea(String descripcion) {
-        this.descripcion = descripcion;
-    }
 
     public Long getId() {
         return id;
@@ -36,6 +48,13 @@ public class Tarea {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    public Hora getHora() {
+        return hora;
+    }
+    public void setHora(Hora hora) {
+        this.hora = hora;
     }
 
     public Ausencia getAusencia() {

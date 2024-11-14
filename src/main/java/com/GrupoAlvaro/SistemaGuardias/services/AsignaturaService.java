@@ -1,6 +1,6 @@
 package com.GrupoAlvaro.SistemaGuardias.services;
 
-import com.GrupoAlvaro.SistemaGuardias.exception.ResourceNotFoundException;
+import com.GrupoAlvaro.SistemaGuardias.dto.AsignaturaDTO;
 import com.GrupoAlvaro.SistemaGuardias.models.Asignatura;
 import com.GrupoAlvaro.SistemaGuardias.repositories.AsignaturaRepository;
 import jakarta.transaction.Transactional;
@@ -18,6 +18,7 @@ public class AsignaturaService {
 
     @Transactional
     public void guardarAsignatura(Asignatura asignatura) {
+
         asignaturaRepository.save(asignatura);
     }
 
@@ -25,9 +26,11 @@ public class AsignaturaService {
         return asignaturaRepository.findAll();
     }
 
-    public Asignatura buscarAsignaturaById(Long id) {
-        return asignaturaRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Asignatura no encontrada"));
+
+    public Optional<Asignatura> obtenerAsignatura(Long id) {
+        return asignaturaRepository.findById(id);
     }
+
 
     @Transactional
     public void eliminarAsignatura(Long id) {
@@ -35,16 +38,13 @@ public class AsignaturaService {
     }
 
     @Transactional
-    public Optional<Asignatura> actualizarAsignatura(Long id, Asignatura asignaturaModificada) {
-        Optional<Asignatura> asignatura = asignaturaRepository.findById(id);
-        if (asignatura.isPresent()) {
-            asignatura.get().setNombre(asignaturaModificada.getNombre());
-        }else {
-            throw new ResourceNotFoundException("Asignatura no encontrada");
+    public void actualizarAsignatura(Long id, AsignaturaDTO asignaturaDTO) {
+        Optional<Asignatura> asignaturaOpt = asignaturaRepository.findById(id);
+        if (asignaturaOpt.isPresent()) {
+            Asignatura asignatura = asignaturaOpt.get();
+            asignatura.setNombre(asignaturaDTO.getNombre());
+            asignaturaRepository.save(asignatura);
         }
-        return asignatura;
     }
-
-
 
 }

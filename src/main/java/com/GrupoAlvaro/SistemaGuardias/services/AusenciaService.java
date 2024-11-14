@@ -1,37 +1,110 @@
 package com.GrupoAlvaro.SistemaGuardias.services;
 
 import com.GrupoAlvaro.SistemaGuardias.dto.AusenciaDTO;
-import com.GrupoAlvaro.SistemaGuardias.exception.ResourceNotFoundException;
+import com.GrupoAlvaro.SistemaGuardias.dto.DetalleAusenciaDTO;
+import com.GrupoAlvaro.SistemaGuardias.dto.NotificacionDTO;
 import com.GrupoAlvaro.SistemaGuardias.models.Ausencia;
 import com.GrupoAlvaro.SistemaGuardias.models.Profesor;
-import com.GrupoAlvaro.SistemaGuardias.repositories.AusenciaRepository;
-import com.GrupoAlvaro.SistemaGuardias.repositories.ProfesorRepository;
+import com.GrupoAlvaro.SistemaGuardias.models.Tarea;
+import com.GrupoAlvaro.SistemaGuardias.repositories.*;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class AusenciaService {
 
     @Autowired
+    private ProfesorRepository profesorRepository;
+
+    @Autowired
     private AusenciaRepository ausenciaRepository;
 
     @Autowired
-    private ProfesorService profesorService;
+    private GrupoRepository grupoRepository;
+
+    @Autowired
+    private AsignaturaRepository asignaturaRepository;
+
+    @Autowired
+    private TareaRepository tareaRepository;
+
+    @Autowired
+    private NotificacionService notificacionService;
+
+    public Optional<Ausencia> listarAusenciaById(Long id) {
+        return ausenciaRepository.findById(id);
+    }
+
+
+    @Transactional
+    public void registrarAusencia(AusenciaDTO ausenciaDTO) {
+        Profesor profesor = profesorRepository.findByEmail(ausenciaDTO.getProfesorEmail())
+                .orElseThrow(() -> new RuntimeException("Profesor no encontrado"));
+
+        // Crear y guardar la ausencia
+        Ausencia ausencia = new Ausencia(profesor, ausenciaDTO.getFechaInicio(), ausenciaDTO.getFechaFin(), ausenciaDTO.getHoras());
+        ausenciaRepository.save(ausencia);
+
+        // Crear y guardar la notificación asociada
+        NotificacionDTO notificacionDTO = new NotificacionDTO();
+        notificacionDTO.setProfesorId(profesor.getId());
+        notificacionDTO.setMensaje("El profesor no podrá asistir por motivos de salud.");
+        notificacionDTO.setJustificanteMedico(ausenciaDTO.getJustificanteMedico());
+
+        // Llamada al servicio de notificación para crearla
+        notificacionService.crearNotificacion(notificacionDTO);
+
+        // Guardar y asociar las tareas a la ausencia
+        for (DetalleAusenciaDTO detalle : ausenciaDTO.getDetalles()) {
+            Tarea tarea = new Tarea();
+            tarea.setDescripcion(detalle.getTarea());
+            tarea.setHora(detalle.getHora());
+
+            // Encontrar y asociar el grupo y la asignatura
+            tarea.setGrupo(grupoRepository.findById(detalle.getGrupoId())
+                    .orElseThrow(() -> new RuntimeException("Grupo no encontrado")));
+            tarea.setAsignatura(asignaturaRepository.findById(detalle.getAsignaturaId())
+                    .orElseThrow(() -> new RuntimeException("Asignatura no encontrada")));
+
+            // Asociar la tarea a la ausencia
+            tarea.setAusencia(ausencia);
+
+            // Guardar la tarea en la base de datos
+            tareaRepository.save(tarea);
+
+            // Agregar la tarea a la lista de tareas de la ausencia
+            ausencia.getTareas().add(tarea); // Esta línea agrega la tarea correctamente
+        }
+
+        // Actualizar la ausencia con las tareas asociadas
+        ausenciaRepository.save(ausencia);
+    }
+
 
     public List<Ausencia> listarAusencias() {
         return ausenciaRepository.findAll();
     }
 
-    public Optional<Ausencia> buscarAusenciaById(Long id) {
-        return ausenciaRepository.findById(id);
+    public List<Ausencia> listarAusenciasPorProfesor(String email) {
+        Profesor profesor = (Profesor) profesorRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("Profesor no encontrado"));
+        return ausenciaRepository.findByProfesorAusente(profesor);
+    }
+
+    @Transactional
+    public void actualizarAusencia(Long id, AusenciaDTO ausenciaDTO) {
+        Optional<Ausencia> ausenciaOpt = ausenciaRepository.findById(id);
+        if (ausenciaOpt.isPresent()) {
+            Ausencia ausencia = ausenciaOpt.get();
+            Profesor profesor = (Profesor) profesorRepository.findByEmail(ausenciaDTO.getProfesorEmail()).orElseThrow(() -> new RuntimeException("Profesor no encontrado"));
+            ausencia.setProfesorAusente(ausencia.getProfesorAusente());
+            ausencia.setFechaInicio(ausenciaDTO.getFechaInicio());
+            ausencia.setFechaFin(ausenciaDTO.getFechaFin());
+            ausenciaRepository.save(ausencia);
+        }
     }
 
     @Transactional
@@ -39,53 +112,4 @@ public class AusenciaService {
         ausenciaRepository.deleteById(id);
     }
 
-    @Transactional
-    public Optional<Ausencia> modificarAusencia(Long id, Ausencia ausenciaModificada) {
-        Optional<Ausencia> ausencia = ausenciaRepository.findById(id);
-        if(ausencia.isPresent()){
-            ausencia.get().setFechaInicio(ausenciaModificada.getFechaInicio());
-            ausencia.get().setFechaFin(ausenciaModificada.getFechaFin());
-            ausenciaRepository.save(ausencia.get());
-        }else {
-            throw new ResourceNotFoundException("Ausencia no encontrada");
-        }
-        return ausencia;
-    }
-
-    @Transactional
-    public void registrarAusencia(AusenciaDTO ausenciaDTO) {
-
-        Profesor profesor = profesorService.buscarProfesorById(ausenciaDTO.getProfesorEmail());
-        if(profesor == null){
-            throw new ResourceNotFoundException("Profesor no encontrado");
-        }
-
-        Ausencia ausencia = new Ausencia(
-                profesor,
-                ausenciaDTO.getFechaInicio(),
-                ausenciaDTO.getFechaFin(),
-                ausenciaDTO.getHoras());
-
-        ausenciaRepository.save(ausencia);
-
-    }
-
-
-    public Optional<List<Ausencia>> buscarAusenciasByFecha(LocalDate fecha) {
-        // Lista para almacenar las ausencias encontradas
-        List<Ausencia> ausenciasHoy = new ArrayList<>();
-
-        // Obtener todas las ausencias de una sola vez (idealmente esto debería ser hecho con un filtro en la base de datos)
-        List<Ausencia> todasLasAusencias = ausenciaRepository.findAll();
-
-        // Filtrar las ausencias para encontrar las que coinciden con la fecha
-        for (Ausencia ausencia : todasLasAusencias) {
-            if (ausencia.getFechaInicio().isEqual(fecha)) {
-                ausenciasHoy.add(ausencia);
-            }
-        }
-
-        // Retornar las ausencias encontradas envueltas en un Optional
-        return ausenciasHoy.isEmpty() ? Optional.empty() : Optional.of(ausenciasHoy);
-    }
 }
