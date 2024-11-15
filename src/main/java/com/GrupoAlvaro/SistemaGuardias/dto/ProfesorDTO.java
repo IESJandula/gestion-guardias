@@ -9,8 +9,6 @@ public class ProfesorDTO {
 
     private String nombre;
     private String email;
-    private List<Asignatura> asignatura;
-    private List<Grupo> grupo;
 
     public ProfesorDTO(String nombre, String email) {
         this.nombre = nombre;
@@ -36,20 +34,5 @@ public class ProfesorDTO {
         this.email = email;
     }
 
-    public List<Asignatura> getAsignatura() {
-        return asignatura;
-    }
-
-    public void setAsignatura(List<Asignatura> asignatura) {
-        this.asignatura = asignatura;
-    }
-
-    public List<Grupo> getGrupo() {
-        return grupo;
-    }
-
-    public void setGrupo(List<Grupo> grupo) {
-        this.grupo = grupo;
-    }
 }
 
