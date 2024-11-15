@@ -1,13 +1,18 @@
 package com.GrupoAlvaro.SistemaGuardias.dto;
 
+import com.GrupoAlvaro.SistemaGuardias.models.Asignatura;
+import com.GrupoAlvaro.SistemaGuardias.models.Grupo;
+
+import java.util.List;
+
 public class ProfesorDTO {
 
     private String nombre;
     private String email;
-    private String asignatura;
-    private String grupo;
+    private List<Asignatura> asignatura;
+    private List<Grupo> grupo;
 
-    public ProfesorDTO(String nombre, String email, String asignatura, String grupo) {
+    public ProfesorDTO(String nombre, String email, List asignatura, List grupo) {
         this.nombre = nombre;
         this.email = email;
         this.asignatura = asignatura;
@@ -33,19 +38,19 @@ public class ProfesorDTO {
         this.email = email;
     }
 
-    public String getAsignatura() {
+    public List<Asignatura> getAsignatura() {
         return asignatura;
     }
 
-    public void setAsignatura(String asignatura) {
+    public void setAsignatura(List asignatura) {
         this.asignatura = asignatura;
     }
 
-    public String getGrupo() {
+    public List getGrupo() {
         return grupo;
     }
 
-    public void setGrupo(String grupo) {
+    public void setGrupo(List grupo) {
         this.grupo = grupo;
     }
 }

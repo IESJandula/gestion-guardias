@@ -29,7 +29,12 @@ public class ProfesorService {
     private GrupoRepository grupoRepository;
 
     @Transactional
-    public void guardarProfesor(Profesor profesor) {
+    public void guardarProfesor(ProfesorDTO profesorDTO) {
+        Profesor profesor = new Profesor();
+        profesor.setNombre(profesorDTO.getNombre());
+        profesor.setEmail(profesorDTO.getEmail());
+        profesor.setAsignaturas(profesorDTO.getAsignatura());
+        profesor.setGrupo(profesorDTO.getGrupo());
         profesorRepository.save(profesor);
     }
 
@@ -49,19 +54,10 @@ public class ProfesorService {
             profesor.setNombre(profesorDTO.getNombre());
             profesor.setEmail(profesorDTO.getEmail());
 
-            Long asignaturaId = Long.valueOf(profesorDTO.getAsignatura());
-            Long grupoId = Long.valueOf(profesorDTO.getGrupo());
+            List asignaturaId = profesorDTO.getAsignatura();;
+            List grupoId = profesorDTO.getGrupo();
 
-            // Buscar la asignatura y el grupo en el repositorio
-            Asignatura asignatura = asignaturaRepository.findById(asignaturaId)
-                    .orElseThrow(() -> new EntityNotFoundException("Asignatura no encontrada"));
 
-            Grupo grupo = grupoRepository.findById(grupoId)
-                    .orElseThrow(() -> new EntityNotFoundException("Grupo no encontrado"));
-
-            // Actualizar las asignaturas y el grupo del profesor
-            profesor.setAsignaturas(Collections.singletonList(asignatura));  // Debe ser una lista
-            profesor.setGrupo(Collections.singletonList(grupo));  // Debe ser una lista
 
             profesorRepository.save(profesor);
         } else {
