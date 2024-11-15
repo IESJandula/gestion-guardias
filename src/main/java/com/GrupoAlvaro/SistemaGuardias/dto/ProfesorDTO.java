@@ -12,11 +12,9 @@ public class ProfesorDTO {
     private List<Asignatura> asignatura;
     private List<Grupo> grupo;
 
-    public ProfesorDTO(String nombre, String email, List asignatura, List grupo) {
+    public ProfesorDTO(String nombre, String email) {
         this.nombre = nombre;
         this.email = email;
-        this.asignatura = asignatura;
-        this.grupo = grupo;
     }
 
     public ProfesorDTO() {}
@@ -42,15 +40,15 @@ public class ProfesorDTO {
         return asignatura;
     }
 
-    public void setAsignatura(List asignatura) {
+    public void setAsignatura(List<Asignatura> asignatura) {
         this.asignatura = asignatura;
     }
 
-    public List getGrupo() {
+    public List<Grupo> getGrupo() {
         return grupo;
     }
 
-    public void setGrupo(List grupo) {
+    public void setGrupo(List<Grupo> grupo) {
         this.grupo = grupo;
     }
 }

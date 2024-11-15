@@ -33,8 +33,6 @@ public class ProfesorService {
         Profesor profesor = new Profesor();
         profesor.setNombre(profesorDTO.getNombre());
         profesor.setEmail(profesorDTO.getEmail());
-        profesor.setAsignaturas(profesorDTO.getAsignatura());
-        profesor.setGrupo(profesorDTO.getGrupo());
         profesorRepository.save(profesor);
     }
 
