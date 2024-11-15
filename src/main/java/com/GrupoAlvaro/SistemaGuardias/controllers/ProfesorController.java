@@ -20,9 +20,9 @@ public class ProfesorController {
 
     // Crear Profesor
     @PostMapping("/registrar")
-    public ResponseEntity<String> registrarProfesor(@RequestBody Profesor profesor) {
+    public ResponseEntity<String> registrarProfesor(@RequestBody ProfesorDTO profesorDTO) {
         try {
-            profesorService.guardarProfesor(profesor);
+            profesorService.guardarProfesor(profesorDTO);
             return ResponseEntity.ok("Profesor registrado exitosamente");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al registrar el profesor");
