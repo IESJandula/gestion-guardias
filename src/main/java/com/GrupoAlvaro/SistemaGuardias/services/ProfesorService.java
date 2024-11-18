@@ -33,8 +33,6 @@ public class ProfesorService {
         Profesor profesor = new Profesor();
         profesor.setNombre(profesorDTO.getNombre());
         profesor.setEmail(profesorDTO.getEmail());
-        profesor.setAsignaturas(profesorDTO.getAsignatura());
-        profesor.setGrupo(profesorDTO.getGrupo());
         profesorRepository.save(profesor);
     }
 
@@ -53,12 +51,6 @@ public class ProfesorService {
             Profesor profesor = profesorOpt.get();
             profesor.setNombre(profesorDTO.getNombre());
             profesor.setEmail(profesorDTO.getEmail());
-
-            List asignaturaId = profesorDTO.getAsignatura();;
-            List grupoId = profesorDTO.getGrupo();
-
-
-
             profesorRepository.save(profesor);
         } else {
             throw new EntityNotFoundException("Profesor no encontrado");

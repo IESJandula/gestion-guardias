@@ -9,14 +9,10 @@ public class ProfesorDTO {
 
     private String nombre;
     private String email;
-    private List<Asignatura> asignatura;
-    private List<Grupo> grupo;
 
-    public ProfesorDTO(String nombre, String email, List asignatura, List grupo) {
+    public ProfesorDTO(String nombre, String email) {
         this.nombre = nombre;
         this.email = email;
-        this.asignatura = asignatura;
-        this.grupo = grupo;
     }
 
     public ProfesorDTO() {}
@@ -38,20 +34,5 @@ public class ProfesorDTO {
         this.email = email;
     }
 
-    public List<Asignatura> getAsignatura() {
-        return asignatura;
-    }
-
-    public void setAsignatura(List asignatura) {
-        this.asignatura = asignatura;
-    }
-
-    public List getGrupo() {
-        return grupo;
-    }
-
-    public void setGrupo(List grupo) {
-        this.grupo = grupo;
-    }
 }
 

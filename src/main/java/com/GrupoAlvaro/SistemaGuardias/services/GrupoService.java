@@ -29,8 +29,11 @@ public class GrupoService {
 
 
     @Transactional
-    public void crearGrupo(Grupo grupo) {
-         grupoRepository.save(grupo);
+    public void crearGrupo(GrupoDTO grupo) {
+        Grupo g = new Grupo();
+        g.setNombre(grupo.getNombre());
+        g.setEsConflictivo(grupo.getDatos());
+        grupoRepository.save(g);
     }
 
     public List<Grupo> listarGrupos() {

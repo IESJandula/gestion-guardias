@@ -18,7 +18,7 @@ public class GrupoController {
     GrupoService grupoService;
 
     @PostMapping("/registrar")
-    public ResponseEntity<String> registrarGrupo(@RequestBody Grupo grupo){
+    public ResponseEntity<String> registrarGrupo(@RequestBody GrupoDTO grupo){
         try {
             grupoService.crearGrupo(grupo);
             return ResponseEntity.ok("Grupo registrado exitosamente");

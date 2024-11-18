@@ -1,6 +1,7 @@
 package com.GrupoAlvaro.SistemaGuardias.controllers;
 
 import com.GrupoAlvaro.SistemaGuardias.dto.AusenciaDTO;
+import com.GrupoAlvaro.SistemaGuardias.exception.ResourceNotFoundException;
 import com.GrupoAlvaro.SistemaGuardias.models.Ausencia;
 import com.GrupoAlvaro.SistemaGuardias.services.AusenciaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,12 +20,20 @@ public class AusenciaController {
 
     // Registrar una ausencia
     @PostMapping("/registrar")
-    public ResponseEntity<String> registrarAusencia(@RequestBody AusenciaDTO ausenciaDTO) {
+    public ResponseEntity<?> registrarAusencia(@RequestBody AusenciaDTO ausenciaDTO) {
         try {
+            // Llamar al servicio para registrar la ausencia
             ausenciaService.registrarAusencia(ausenciaDTO);
-            return ResponseEntity.ok("Ausencia registrada correctamente y notificación enviada.");
-        } catch (Exception e){
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al registrar la ausencia.");
+            return ResponseEntity.status(HttpStatus.CREATED).body("Ausencia registrada exitosamente");
+        } catch (ResourceNotFoundException e) {
+            // Si no se encuentra el profesor, devolver un error 404
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (RuntimeException e) {
+            // Manejo de errores generales con un 400 si hay datos incorrectos
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error de validación: " + e.getMessage());
+        } catch (Exception e) {
+            // Error general que no se ha manejado
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Ocurrió un error inesperado");
         }
     }
 

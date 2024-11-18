@@ -3,6 +3,7 @@ package com.GrupoAlvaro.SistemaGuardias.services;
 import com.GrupoAlvaro.SistemaGuardias.dto.AusenciaDTO;
 import com.GrupoAlvaro.SistemaGuardias.dto.DetalleAusenciaDTO;
 import com.GrupoAlvaro.SistemaGuardias.dto.NotificacionDTO;
+import com.GrupoAlvaro.SistemaGuardias.exception.ResourceNotFoundException;
 import com.GrupoAlvaro.SistemaGuardias.models.Ausencia;
 import com.GrupoAlvaro.SistemaGuardias.models.Profesor;
 import com.GrupoAlvaro.SistemaGuardias.models.Tarea;
@@ -43,7 +44,8 @@ public class AusenciaService {
     @Transactional
     public void registrarAusencia(AusenciaDTO ausenciaDTO) {
         Profesor profesor = profesorRepository.findByEmail(ausenciaDTO.getProfesorEmail())
-                .orElseThrow(() -> new RuntimeException("Profesor no encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Profesor con email " + ausenciaDTO.getProfesorEmail() + " no encontrado"));
+
 
         // Crear y guardar la ausencia
         Ausencia ausencia = new Ausencia(profesor, ausenciaDTO.getFechaInicio(), ausenciaDTO.getFechaFin(), ausenciaDTO.getHoras());

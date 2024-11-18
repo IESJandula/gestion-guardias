@@ -19,9 +19,9 @@ public class AsignaturaController {
     private AsignaturaService asignaturaService;
 
     @PostMapping("/registrar")
-    public ResponseEntity<String> registrarAsignatura(@RequestBody Asignatura asignatura) {
+    public ResponseEntity<String> registrarAsignatura(@RequestBody AsignaturaDTO asignaturaDTO) {
         try {
-            asignaturaService.guardarAsignatura(asignatura);
+            asignaturaService.guardarAsignatura(asignaturaDTO);
             return ResponseEntity.ok("asignatura registrada correctamente");
         } catch (Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al registrar asignatura");

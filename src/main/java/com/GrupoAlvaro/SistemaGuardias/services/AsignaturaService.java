@@ -17,9 +17,10 @@ public class AsignaturaService {
     private AsignaturaRepository asignaturaRepository;
 
     @Transactional
-    public void guardarAsignatura(Asignatura asignatura) {
-
-        asignaturaRepository.save(asignatura);
+    public void guardarAsignatura(AsignaturaDTO asignaturaDTO) {
+        Asignatura a = new Asignatura();
+        a.setNombre(asignaturaDTO.getNombre());
+        asignaturaRepository.save(a);
     }
 
     public List<Asignatura> listarAsignaturas() {
