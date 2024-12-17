@@ -4,6 +4,7 @@ import com.GrupoAlvaro.SistemaGuardias.dto.AusenciaDTO;
 import com.GrupoAlvaro.SistemaGuardias.exception.ResourceNotFoundException;
 import com.GrupoAlvaro.SistemaGuardias.models.Ausencia;
 import com.GrupoAlvaro.SistemaGuardias.services.AusenciaService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +22,7 @@ public class AusenciaController {
 
     // Registrar una ausencia
     @PostMapping("/registrar")
-    public ResponseEntity<?> registrarAusencia(@RequestBody AusenciaDTO ausenciaDTO) {
+    public ResponseEntity<?> registrarAusencia(@Valid @RequestBody AusenciaDTO ausenciaDTO) {
         try {
             // Llamar al servicio para registrar la ausencia
             ausenciaService.registrarAusencia(ausenciaDTO);
@@ -61,7 +62,7 @@ public class AusenciaController {
 
     // Actualizar una ausencia
     @PutMapping("/actualizar/{id}")
-    public ResponseEntity<String> actualizarAusencia(@PathVariable Long id, @RequestBody AusenciaDTO ausenciaDTO) {
+    public ResponseEntity<String> actualizarAusencia(@PathVariable Long id,@Valid @RequestBody AusenciaDTO ausenciaDTO) {
         try {
             ausenciaService.actualizarAusencia(id, ausenciaDTO);
             return ResponseEntity.ok("Ausencia actualizada exitosamente");

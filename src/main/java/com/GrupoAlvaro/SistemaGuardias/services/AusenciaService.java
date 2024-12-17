@@ -10,12 +10,17 @@ import com.GrupoAlvaro.SistemaGuardias.models.Tarea;
 import com.GrupoAlvaro.SistemaGuardias.repositories.*;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+@CacheConfig(cacheNames = "ausencias")
 @Service
 public class AusenciaService {
 
@@ -92,16 +97,19 @@ public class AusenciaService {
         return ausenciaRepository.findAll();
     }
 
+    @Cacheable(key = "#fecha")
     public List<Ausencia> listarAusenciasPorFecha(LocalDate fecha){
         return ausenciaRepository.findByFecha(fecha);
     }
 
+    @Cacheable(key = "#email")
     public List<Ausencia> listarAusenciasPorProfesor(String email) {
         Profesor profesor = (Profesor) profesorRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("Profesor no encontrado"));
         return ausenciaRepository.findByProfesorAusente(profesor);
     }
 
     @Transactional
+    @CachePut(key = "#id")
     public void actualizarAusencia(Long id, AusenciaDTO ausenciaDTO) {
         Optional<Ausencia> ausenciaOpt = ausenciaRepository.findById(id);
         if (ausenciaOpt.isPresent()) {
@@ -114,6 +122,7 @@ public class AusenciaService {
     }
 
     @Transactional
+    @CacheEvict(key = "#id")
     public void eliminarAusencia(Long id) {
         ausenciaRepository.deleteById(id);
     }

@@ -3,6 +3,7 @@ package com.GrupoAlvaro.SistemaGuardias.controllers;
 import com.GrupoAlvaro.SistemaGuardias.dto.ProfesorDTO;
 import com.GrupoAlvaro.SistemaGuardias.models.Profesor;
 import com.GrupoAlvaro.SistemaGuardias.services.ProfesorService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,7 @@ public class ProfesorController {
 
     // Crear Profesor
     @PostMapping("/registrar")
-    public ResponseEntity<String> registrarProfesor(@RequestBody ProfesorDTO profesorDTO) {
+    public ResponseEntity<String> registrarProfesor(@Valid @RequestBody ProfesorDTO profesorDTO) {
         try {
             profesorService.guardarProfesor(profesorDTO);
             return ResponseEntity.ok("Profesor registrado exitosamente");
@@ -46,7 +47,7 @@ public class ProfesorController {
 
     // Actualizar un profesor
     @PutMapping("/actualizar/{id}")
-    public ResponseEntity<String> actualizarProfesor(@PathVariable Long id, @RequestBody ProfesorDTO profesorDTO) {
+    public ResponseEntity<String> actualizarProfesor(@PathVariable Long id,@Valid @RequestBody ProfesorDTO profesorDTO) {
         try {
             profesorService.actualizarProfesor(id, profesorDTO);
             return ResponseEntity.ok("Profesor actualizado exitosamente");

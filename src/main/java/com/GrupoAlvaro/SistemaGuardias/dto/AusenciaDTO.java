@@ -1,16 +1,24 @@
 package com.GrupoAlvaro.SistemaGuardias.dto;
 
 import com.GrupoAlvaro.SistemaGuardias.enums.Hora;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 import java.util.List;
 
 public class AusenciaDTO {
 
+    @NotBlank(message = "El email no puede estar vacío")
     private String profesorEmail;
+    @NotBlank(message = "La fecha no puede estar vacío")
     private LocalDate fecha;
+    @NotEmpty(message = "La lista de horas no puede estar vacía")
     private List<Hora> horas;
+    @NotEmpty(message = "La lista de detalles no puede estar vacía")
     private List<DetalleAusenciaDTO> detalles;
+    @NotNull(message = "Tienes que mandar un justificante médico.")
     private byte[] justificanteMedico;
 
     public AusenciaDTO(String profesorEmail, LocalDate fecha, List<Hora> horas, List<DetalleAusenciaDTO> detalles, byte[] justificanteMedico) {

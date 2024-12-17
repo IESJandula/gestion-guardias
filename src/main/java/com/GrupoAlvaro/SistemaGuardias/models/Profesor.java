@@ -3,6 +3,7 @@ package com.GrupoAlvaro.SistemaGuardias.models;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import org.springframework.cache.annotation.EnableCaching;
 
 import java.util.List;
 
