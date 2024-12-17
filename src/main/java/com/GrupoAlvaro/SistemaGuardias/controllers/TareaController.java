@@ -39,7 +39,7 @@ public class TareaController {
                 .orElseThrow(() -> new RuntimeException("Profesor no encontrado"));
 
         // Crear la ausencia
-        Ausencia ausencia = new Ausencia(profesor, ausenciaDTO.getFechaInicio(), ausenciaDTO.getFechaFin(), ausenciaDTO.getHoras());
+        Ausencia ausencia = new Ausencia(profesor, ausenciaDTO.getFecha(), ausenciaDTO.getHoras());
         ausenciaService.registrarAusencia(ausenciaDTO);
 
         // Crear tareas basadas en los detalles

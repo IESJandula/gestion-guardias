@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -42,6 +43,13 @@ public class AusenciaController {
     public ResponseEntity<List<Ausencia>> listarAusencias() {
         List<Ausencia> ausencias = ausenciaService.listarAusencias();
         return ResponseEntity.ok(ausencias);
+    }
+
+    @GetMapping("/listar/{fecha}")
+    public ResponseEntity<List<Ausencia>> listarAusenciasByFecha(@PathVariable String fecha) {
+        LocalDate fechaEnLocalDate = LocalDate.parse(fecha);
+        List<Ausencia> ausenciasDelDia = ausenciaService.listarAusenciasPorFecha(fechaEnLocalDate);
+        return ResponseEntity.ok(ausenciasDelDia);
     }
 
     // Obtener ausencias por profesor

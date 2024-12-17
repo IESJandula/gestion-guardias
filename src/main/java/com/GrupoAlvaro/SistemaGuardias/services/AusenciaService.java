@@ -12,6 +12,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,7 +49,7 @@ public class AusenciaService {
 
 
         // Crear y guardar la ausencia
-        Ausencia ausencia = new Ausencia(profesor, ausenciaDTO.getFechaInicio(), ausenciaDTO.getFechaFin(), ausenciaDTO.getHoras());
+        Ausencia ausencia = new Ausencia(profesor, ausenciaDTO.getFecha(), ausenciaDTO.getHoras());
         ausenciaRepository.save(ausencia);
 
         // Crear y guardar la notificación asociada
@@ -91,6 +92,10 @@ public class AusenciaService {
         return ausenciaRepository.findAll();
     }
 
+    public List<Ausencia> listarAusenciasPorFecha(LocalDate fecha){
+        return ausenciaRepository.findByFecha(fecha);
+    }
+
     public List<Ausencia> listarAusenciasPorProfesor(String email) {
         Profesor profesor = (Profesor) profesorRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("Profesor no encontrado"));
         return ausenciaRepository.findByProfesorAusente(profesor);
@@ -103,8 +108,7 @@ public class AusenciaService {
             Ausencia ausencia = ausenciaOpt.get();
             Profesor profesor = (Profesor) profesorRepository.findByEmail(ausenciaDTO.getProfesorEmail()).orElseThrow(() -> new RuntimeException("Profesor no encontrado"));
             ausencia.setProfesorAusente(ausencia.getProfesorAusente());
-            ausencia.setFechaInicio(ausenciaDTO.getFechaInicio());
-            ausencia.setFechaFin(ausenciaDTO.getFechaFin());
+            ausencia.setFecha(ausenciaDTO.getFecha());
             ausenciaRepository.save(ausencia);
         }
     }
@@ -113,5 +117,4 @@ public class AusenciaService {
     public void eliminarAusencia(Long id) {
         ausenciaRepository.deleteById(id);
     }
-
 }

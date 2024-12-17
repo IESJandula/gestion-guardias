@@ -15,8 +15,7 @@ public class Ausencia {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private LocalDate fechaInicio;
-    private LocalDate fechaFin;
+    private LocalDate fecha;
 
     @ElementCollection
     private List<Hora> horas; // Lista de horas afectadas
@@ -42,10 +41,9 @@ public class Ausencia {
 
     public Ausencia() {}
 
-    public Ausencia(Profesor profesorAusente, LocalDate fechaInicio, LocalDate fechaFin, List<Hora> horas) {
+    public Ausencia(Profesor profesorAusente, LocalDate fecha, List<Hora> horas) {
         this.profesorAusente = profesorAusente;
-        this.fechaInicio = fechaInicio;
-        this.fechaFin = fechaFin;
+        this.fecha = fecha;
         this.horas = horas;
         this.tareas = new ArrayList<>();
     }
@@ -54,24 +52,16 @@ public class Ausencia {
         return id;
     }
 
-    public LocalDate getFechaInicio() {
-        return fechaInicio;
-    }
-
-    public void setFechaInicio(LocalDate fechaInicio) {
-        this.fechaInicio = fechaInicio;
-    }
-
-    public LocalDate getFechaFin() {
-        return fechaFin;
-    }
-
-    public void setFechaFin(LocalDate fechaFin) {
-        this.fechaFin = fechaFin;
+    public LocalDate getFecha() {
+        return fecha;
     }
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public void setFecha(LocalDate fecha) {
+        this.fecha = fecha;
     }
 
     public List<Hora> getHoras() {
