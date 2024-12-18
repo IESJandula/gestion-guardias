@@ -16,17 +16,15 @@ public class AusenciaDTO {
     private LocalDate fecha;
     @NotEmpty(message = "La lista de horas no puede estar vacía")
     private List<Hora> horas;
-    @NotEmpty(message = "La lista de detalles no puede estar vacía")
-    private List<DetalleAusenciaDTO> detalles;
-    @NotNull(message = "Tienes que mandar un justificante médico.")
-    private byte[] justificanteMedico;
 
-    public AusenciaDTO(String profesorEmail, LocalDate fecha, List<Hora> horas, List<DetalleAusenciaDTO> detalles, byte[] justificanteMedico) {
+    private byte[] documentoAdjunto;
+
+
+    public AusenciaDTO(String profesorEmail, LocalDate fecha, List<Hora> horas, byte[] documentoAdjunto) {
         this.profesorEmail = profesorEmail;
         this.fecha = fecha;
         this.horas = horas;
-        this.detalles = detalles;
-        this.justificanteMedico = justificanteMedico;
+        this.documentoAdjunto = documentoAdjunto;
     }
 
     public String getProfesorEmail() {
@@ -53,20 +51,12 @@ public class AusenciaDTO {
         this.horas = horas;
     }
 
-    public List<DetalleAusenciaDTO> getDetalles() {
-        return detalles;
+    public byte[] getDocumentoAdjunto() {
+        return documentoAdjunto;
     }
 
-    public void setDetalles(List<DetalleAusenciaDTO> detalles) {
-        this.detalles = detalles;
-    }
-
-    public byte[] getJustificanteMedico() {
-        return justificanteMedico;
-    }
-
-    public void setJustificanteMedico(byte[] justificanteMedico) {
-        this.justificanteMedico = justificanteMedico;
+    public void setDocumentoAdjunto(byte[] documentoAdjunto) {
+        this.documentoAdjunto = documentoAdjunto;
     }
 }
 
