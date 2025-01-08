@@ -32,6 +32,25 @@ public class AusenciaService {
         ausencia.setProfesorAusente(profesor);
         ausencia.setTarea(ausenciaDTO.getTarea());
 
+        return ausenciaRepository.save(ausencia);
+    }
+
+
+    /*
+    Metodo para registrar ausencias y que se generen coberturas automaticamente
+    @Transactional
+    public Ausencia registrarAusencia(AusenciaDTO ausenciaDTO) throws Exception {
+        // Validamos que el profesor que registra la ausencia sea válido
+        Profesor profesor = profesorRepository.findByEmail(ausenciaDTO.getProfesorAusenteEmail())
+                .orElseThrow(() -> new Exception("Profesor no encontrado"));
+
+        // Creamos la ausencia con los datos que nos pasan por el DTO
+        Ausencia ausencia = new Ausencia();
+        ausencia.setFecha(ausenciaDTO.getFecha());
+        ausencia.setHora(HoraDia.valueOf(ausenciaDTO.getHora()));
+        ausencia.setProfesorAusente(profesor);
+        ausencia.setTarea(ausenciaDTO.getTarea());
+
         try {
             // Llamada al metodo para generar automáticamente la cobertura
             Cobertura cobertura = coberturaService.generarCobertura(ausencia);
@@ -47,6 +66,8 @@ public class AusenciaService {
         // Guardamos la ausencia
         return ausenciaRepository.save(ausencia);
     }
+
+     */
 
 
 }

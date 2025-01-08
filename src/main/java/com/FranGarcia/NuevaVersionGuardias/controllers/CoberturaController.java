@@ -5,10 +5,7 @@ import com.FranGarcia.NuevaVersionGuardias.services.CoberturaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -31,5 +28,16 @@ public class CoberturaController {
         }
         return ResponseEntity.ok(coberturas);
     }
+
+    @PostMapping("/asignarCobertura")
+    public ResponseEntity<Cobertura> asignarCobertura(@RequestParam Long ausenciaId, @RequestParam String profesorEmail) {
+        try {
+            Cobertura cobertura = coberturaService.asignarCobertura(ausenciaId, profesorEmail);
+            return ResponseEntity.ok(cobertura);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(null);
+        }
+    }
+
 }
 

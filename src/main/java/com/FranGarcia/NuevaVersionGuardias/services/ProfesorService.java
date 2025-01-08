@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProfesorService {
@@ -15,6 +16,10 @@ public class ProfesorService {
 
     public List<Profesor> findAll() {
         return profesorRepository.findAll();
+    }
+
+    public Optional<Profesor> findByEmail(String email) {
+        return profesorRepository.findByEmail(email);
     }
 
     @Transactional

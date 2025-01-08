@@ -4,6 +4,7 @@ import com.FranGarcia.NuevaVersionGuardias.enums.Actividad;
 import com.FranGarcia.NuevaVersionGuardias.enums.DiaSemana;
 import com.FranGarcia.NuevaVersionGuardias.enums.HoraDia;
 import com.FranGarcia.NuevaVersionGuardias.models.*;
+import com.FranGarcia.NuevaVersionGuardias.repositories.AusenciaRepository;
 import com.FranGarcia.NuevaVersionGuardias.repositories.CoberturaRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,11 +19,43 @@ public class CoberturaService {
     private ProfesorService profesorService;
 
     @Autowired
+    private AusenciaRepository ausenciaRepository;
+
+    @Autowired
     private CoberturaRepository coberturaRepository;
 
     public List<Cobertura> obtenerCoberturasPorFecha(LocalDate fecha) {
         return coberturaRepository.findByFecha(fecha);
     }
+
+    @Transactional
+    public Cobertura asignarCobertura(Long ausenciaId, String profesorEmail) throws Exception {
+        // Validamos que la ausencia exista
+        Ausencia ausencia = ausenciaRepository.findById(ausenciaId)
+                .orElseThrow(() -> new Exception("Ausencia no encontrada"));
+
+        // Validamos que el profesor exista
+        Profesor profesor = profesorService.findByEmail(profesorEmail)
+                .orElseThrow(() -> new Exception("Profesor no encontrado"));
+
+        // Verificamos que la ausencia no tenga ya una cobertura asignada
+        if (ausencia.getCobertura() != null) {
+            throw new Exception("La ausencia ya tiene una cobertura asignada.");
+        }
+
+        // Creamos y asignamos la cobertura
+        Cobertura cobertura = new Cobertura(ausencia, profesor);
+        ausencia.setCobertura(cobertura);
+
+        // Guardamos la cobertura y actualizamos la ausencia
+        coberturaRepository.save(cobertura);
+
+        return cobertura;
+    }
+
+
+    //Metodo para generar coberturas automaticamente, al crearse una ausencia
+    /*
 
     @Transactional
     public Cobertura generarCobertura(Ausencia ausencia) throws Exception {
@@ -63,5 +96,7 @@ public class CoberturaService {
 
         throw new Exception("No hay profesores disponibles para cubrir la guardia en esta fecha y hora.");
     }
+
+     */
 
 }
