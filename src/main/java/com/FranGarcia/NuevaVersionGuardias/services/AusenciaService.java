@@ -111,6 +111,46 @@ public class AusenciaService {
         return historicoFaltas;
     }
 
+    public Map<LocalDate, Map<String, List<AusenciaDTO>>> historicoFaltasPorProfesor(String emailProfesor) {
+        // Obtenemos todas las ausencias del profesor por su email
+        List<Ausencia> ausenciasProfesor = ausenciaRepository.findAllByProfesorAusenteEmail(emailProfesor);
+
+        // Creamos un TreeMap para que las fechas estén ordenadas de menor a mayor
+        Map<LocalDate, Map<String, List<AusenciaDTO>>> historicoFaltas = new TreeMap<>();
+
+        // Recorremos cada ausencia del profesor
+        for (Ausencia ausencia : ausenciasProfesor) {
+            // Obtenemos la fecha y hora
+            LocalDate fecha = ausencia.getFecha();
+            String hora = ausencia.getHora().name();
+
+            // Creamos un DTO de la ausencia
+            AusenciaDTO ausenciaDTO = new AusenciaDTO(
+                    ausencia.getFecha(), // Fecha de la ausencia
+                    ausencia.getProfesorAusente().getEmail(), // Email del profesor ausente
+                    hora, // Hora de la ausencia (como texto)
+                    ausencia.getTarea() // Descripción de la tarea
+            );
+
+            // Si no existe la fecha en el mapa, inicializamos su submapa como TreeMap
+            if (!historicoFaltas.containsKey(fecha)) {
+                historicoFaltas.put(fecha, new TreeMap<>()); // TreeMap para que las horas estén ordenadas
+            }
+
+            // Obtenemos el submapa de esa fecha
+            Map<String, List<AusenciaDTO>> ausenciasPorHora = historicoFaltas.get(fecha);
+
+            // Agrupamos las ausencias por hora
+            if (!ausenciasPorHora.containsKey(hora)) {
+                ausenciasPorHora.put(hora, new ArrayList<>());
+            }
+            ausenciasPorHora.get(hora).add(ausenciaDTO);
+        }
+
+        return historicoFaltas;
+    }
+
+
 
     /*
     Metodo para registrar ausencias y que se generen coberturas automaticamente

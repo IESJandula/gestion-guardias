@@ -68,6 +68,20 @@ public class AusenciaController {
         }
     }
 
+    @GetMapping("/historico/{email}")
+    public ResponseEntity<Map<LocalDate, Map<String, List<AusenciaDTO>>>> obtenerHistoricoFaltasPorProfesor(@PathVariable String email) {
+        try {
+            Map<LocalDate, Map<String, List<AusenciaDTO>>> historicoFaltas = ausenciaService.historicoFaltasPorProfesor(email);
+            if (historicoFaltas.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+            }
+            return ResponseEntity.ok(historicoFaltas);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+    }
+
+
 
 
 

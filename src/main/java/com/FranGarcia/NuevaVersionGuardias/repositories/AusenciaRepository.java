@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface AusenciaRepository extends JpaRepository<Ausencia, Long> {
     List<Ausencia> findByFecha(LocalDate fecha);
+    List<Ausencia> findAllByProfesorAusenteEmail(String email);
 }
