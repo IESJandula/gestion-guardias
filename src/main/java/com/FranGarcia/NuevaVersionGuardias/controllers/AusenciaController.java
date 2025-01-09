@@ -50,5 +50,27 @@ public class AusenciaController {
         }
     }
 
+    @GetMapping("/historico")
+    public ResponseEntity<Map<LocalDate, Map<String, List<AusenciaDTO>>>> obtenerHistoricoFaltas() {
+        try {
+            Map<LocalDate, Map<String, List<AusenciaDTO>>> historicoFaltas = ausenciaService.historicoFaltas();
+
+            // Si el histórico está vacío, devolvemos un 204
+            if (historicoFaltas.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+            }
+
+            // Devolvemos el histórico con un 200
+            return ResponseEntity.ok(historicoFaltas);
+        } catch (Exception e) {
+            // En caso de error, devolvemos un 400
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+    }
+
+
+
+
+
 }
 

@@ -10,10 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 @Service
@@ -74,8 +71,45 @@ public class AusenciaService {
         return ausenciasPorHora;
     }
 
+    //Siguiendo la logica del metodo anterior, obtenemos el historico ordenado por fecha y despues por hora, esta vez usando TreeMap
+    public Map<LocalDate, Map<String, List<AusenciaDTO>>> historicoFaltas() {
+        // Obtenemos todas las ausencias
+        List<Ausencia> ausenciasTodas = ausenciaRepository.findAll();
 
+        // Creamos un TreeMap para que las fechas estén ordenadas de menor a mayor
+        Map<LocalDate, Map<String, List<AusenciaDTO>>> historicoFaltas = new TreeMap<>();
 
+        // Recorremos cada ausencia
+        for (Ausencia ausencia : ausenciasTodas) {
+            // Obtenemos la fecha y hora
+            LocalDate fecha = ausencia.getFecha();
+            String hora = ausencia.getHora().name();
+
+            // Creamos un DTO de la ausencia
+            AusenciaDTO ausenciaDTO = new AusenciaDTO(
+                    ausencia.getFecha(), // Fecha de la ausencia
+                    ausencia.getProfesorAusente().getEmail(), // Email del profesor ausente
+                    hora, // Hora de la ausencia (como texto)
+                    ausencia.getTarea() // Descripción de la tarea
+            );
+
+            // Si no existe la fecha en el mapa, inicializamos su submapa como TreeMap
+            if (!historicoFaltas.containsKey(fecha)) {
+                historicoFaltas.put(fecha, new TreeMap<>()); // TreeMap para que las horas estén ordenadas
+            }
+
+            // Obtenemos el submapa de esa fecha
+            Map<String, List<AusenciaDTO>> ausenciasPorHora = historicoFaltas.get(fecha);
+
+            // Agrupamos las ausencias por hora
+            if (!ausenciasPorHora.containsKey(hora)) {
+                ausenciasPorHora.put(hora, new ArrayList<>());
+            }
+            ausenciasPorHora.get(hora).add(ausenciaDTO);
+        }
+
+        return historicoFaltas;
+    }
 
 
     /*
