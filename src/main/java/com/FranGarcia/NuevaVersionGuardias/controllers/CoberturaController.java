@@ -12,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/coberturas")
+@CrossOrigin(origins = "http://127.0.0.1:5501")
 public class CoberturaController {
 
     @Autowired
@@ -32,9 +33,15 @@ public class CoberturaController {
     @PostMapping("/asignarCobertura")
     public ResponseEntity<Cobertura> asignarCobertura(@RequestParam Long ausenciaId, @RequestParam String profesorEmail) {
         try {
+            // Imprimir los datos para depuración
+            System.out.println("Recibido ausenciaId: " + ausenciaId + ", profesorEmail: " + profesorEmail);
+
+            // Asignar cobertura
             Cobertura cobertura = coberturaService.asignarCobertura(ausenciaId, profesorEmail);
             return ResponseEntity.ok(cobertura);
         } catch (Exception e) {
+            // Mostrar el error en la consola
+            e.printStackTrace();
             return ResponseEntity.badRequest().body(null);
         }
     }

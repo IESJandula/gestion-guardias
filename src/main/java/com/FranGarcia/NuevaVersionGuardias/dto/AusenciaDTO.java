@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 
 public class AusenciaDTO {
-
+    private Long id;    //Id de la ausencia
     private LocalDate fecha;  // Fecha de la ausencia
     private String profesorAusenteEmail;  // Email del profesor ausente
     private String hora;  // Hora de la ausencia (usando String para simplificar la representación)
@@ -13,6 +13,16 @@ public class AusenciaDTO {
     // Constructor
     public AusenciaDTO() {}
 
+    //Constructor que maneja el id, ncesario para asignar coberturas y eliminar ausencias
+    public AusenciaDTO(Long id, LocalDate fecha, String profesorAusenteEmail, String hora, String tarea) {
+        this.id = id;
+        this.fecha = fecha;
+        this.profesorAusenteEmail = profesorAusenteEmail;
+        this.hora = hora;
+        this.tarea = tarea;
+    }
+
+    //Constructor sin ID, cuando no nos interesa almacenar su id por ejemplo en el tema de visualizaciones
     public AusenciaDTO(LocalDate fecha, String profesorAusenteEmail, String hora, String tarea) {
         this.fecha = fecha;
         this.profesorAusenteEmail = profesorAusenteEmail;

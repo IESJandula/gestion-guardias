@@ -39,16 +39,20 @@ public class AusenciaService {
     }
 
     @Transactional
-    public void eliminarFalta(LocalDate fecha, String profesorEmail, String hora) {
-        // Convertimos la hora de texto al enum correspondiente
-        HoraDia horaEnum = HoraDia.valueOfHora(hora);
+    public boolean eliminarFalta(LocalDate fecha, String hora, String emailProfesor) {
+        try {
+            // Buscar la ausencia por fecha, hora y profesor
+            Optional<Ausencia> ausenciaOpt = ausenciaRepository.findByFechaAndHoraAndProfesorAusenteEmail(fecha, hora, emailProfesor);
 
-        // Buscamos la ausencia
-        Ausencia ausencia = ausenciaRepository.findByFechaAndProfesorAusenteEmailAndHora(fecha, profesorEmail, horaEnum)
-                .orElseThrow(() -> new RuntimeException("Falta no encontrada"));
+            if (ausenciaOpt.isPresent()) {
+                ausenciaRepository.delete(ausenciaOpt.get());
+                return true;
+            }
 
-        // Eliminamos la ausencia
-        ausenciaRepository.delete(ausencia);
+            return false; // Si no se encuentra, no se elimina
+        } catch (Exception e) {
+            return false; // En caso de error
+        }
     }
 
 

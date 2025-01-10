@@ -38,15 +38,18 @@ public class AusenciaController {
     }
 
     @DeleteMapping("/eliminar")
-    public ResponseEntity<Void> eliminarFalta(
+    public ResponseEntity<String> eliminarFalta(
             @RequestParam("fecha") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fecha,
-            @RequestParam("emailProfesor") String emailProfesor,
-            @RequestParam("hora") String hora) {
+            @RequestParam("hora") String hora,
+            @RequestParam("emailProfesor") String emailProfesor) {
         try {
-            ausenciaService.eliminarFalta(fecha, emailProfesor, hora);
-            return ResponseEntity.ok().build(); // Retornamos un 200 si se eliminó correctamente
+            boolean eliminado = ausenciaService.eliminarFalta(fecha, hora, emailProfesor);
+            if (eliminado) {
+                return ResponseEntity.ok("Falta eliminada correctamente");
+            }
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Falta no encontrada");
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build(); // Retornamos un 400 en caso de error
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error al eliminar la falta");
         }
     }
 

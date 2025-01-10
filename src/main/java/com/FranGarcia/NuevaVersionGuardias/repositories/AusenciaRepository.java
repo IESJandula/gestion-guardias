@@ -11,5 +11,5 @@ import java.util.Optional;
 public interface AusenciaRepository extends JpaRepository<Ausencia, Long> {
     List<Ausencia> findByFecha(LocalDate fecha);
     List<Ausencia> findAllByProfesorAusenteEmail(String email);
-    Optional<Ausencia> findByFechaAndProfesorAusenteEmailAndHora(LocalDate fecha, String profesorEmail, HoraDia hora);
+    Optional<Ausencia> findByFechaAndHoraAndProfesorAusenteEmail(LocalDate fecha, String hora, String emailProfesor);
 }
