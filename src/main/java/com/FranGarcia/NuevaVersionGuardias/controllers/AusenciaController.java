@@ -44,12 +44,14 @@ public class AusenciaController {
             @RequestParam("emailProfesor") String emailProfesor) {
         try {
             boolean eliminado = ausenciaService.eliminarFalta(fecha, hora, emailProfesor);
+
             if (eliminado) {
-                return ResponseEntity.ok("Falta eliminada correctamente");
+                return ResponseEntity.ok("Falta eliminada correctamente.");
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Falta no encontrada.");
             }
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Falta no encontrada");
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error al eliminar la falta");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al eliminar la falta.");
         }
     }
 

@@ -38,24 +38,17 @@ public class AusenciaService {
         return ausenciaRepository.save(ausencia);
     }
 
-    @Transactional
     public boolean eliminarFalta(LocalDate fecha, String hora, String emailProfesor) {
-        try {
-            // Buscar la ausencia por fecha, hora y profesor
-            Optional<Ausencia> ausenciaOpt = ausenciaRepository.findByFechaAndHoraAndProfesorAusenteEmail(fecha, hora, emailProfesor);
+        // Buscamos la ausencia en la base de datos
+        List<Ausencia> ausencias = ausenciaRepository.findByFechaAndHoraAndProfesorAusenteEmail(fecha, HoraDia.valueOf(hora), emailProfesor);
 
-            if (ausenciaOpt.isPresent()) {
-                ausenciaRepository.delete(ausenciaOpt.get());
-                return true;
-            }
-
-            return false; // Si no se encuentra, no se elimina
-        } catch (Exception e) {
-            return false; // En caso de error
+        if (!ausencias.isEmpty()) {
+            // Eliminamos todas las ausencias coincidentes (en caso de duplicados)
+            ausenciaRepository.deleteAll(ausencias);
+            return true;
         }
+        return false; // No se encontró la falta
     }
-
-
 
     //El objetivo de este metodo es tener un mapa cuya clave va a ser la hora del dia y el valor que sera una lista con todas las ausencias de dicha hora
     public Map<String, List<AusenciaDTO>> listarAusenciasPorFechaAgrupadasPorHora(LocalDate fecha) {
