@@ -52,115 +52,93 @@ public class AusenciaService {
 
     //El objetivo de este metodo es tener un mapa cuya clave va a ser la hora del dia y el valor que sera una lista con todas las ausencias de dicha hora
     public Map<String, List<AusenciaDTO>> listarAusenciasPorFechaAgrupadasPorHora(LocalDate fecha) {
-        //Obtenemos todas las ausencias de la fecha indicada
+        // Obtenemos todas las ausencias de la fecha indicada
         List<Ausencia> ausencias = ausenciaRepository.findByFecha(fecha);
 
-        //Creamos un mapa para agrupar las ausencias por hora, para facilitar el trabajao al front y que salgan ya agrupadas por hora
-        Map<String, List<AusenciaDTO>> ausenciasPorHora = new HashMap<>();
+        // Creamos un mapa con un comparador que respeta el orden del enum
+        Map<String, List<AusenciaDTO>> ausenciasPorHora = new TreeMap<>((hora1, hora2) -> {
+            HoraDia h1 = HoraDia.valueOf(hora1);
+            HoraDia h2 = HoraDia.valueOf(hora2);
+            return h1.ordinal() - h2.ordinal();
+        });
 
-        //Recorremos cada ausencia y para ver a que hora del dia es
+        // Recorremos cada ausencia para agruparlas por hora
         for (Ausencia ausencia : ausencias) {
-            //Sacamos la hora
             String hora = ausencia.getHora().name();
 
-            //Creamos un DTO de la ausencia para registrarla en el mapa, porque no queremos guardar su id por ejemplo
             AusenciaDTO ausenciaDTO = new AusenciaDTO(
-                    ausencia.getFecha(), // Fecha de la ausencia
-                    ausencia.getProfesorAusente().getEmail(), // Email del profesor ausente
-                    ausencia.getHora().name(), // Hora de la ausencia (como texto)
-                    ausencia.getTarea() // Descripción de la tarea
+                    ausencia.getFecha(),
+                    ausencia.getProfesorAusente().getEmail(),
+                    hora,
+                    ausencia.getTarea()
             );
 
-            // Agrupamos las ausencias por hora en el mapa
-            // Si ya existe una lista de ausencias para esa hora, la agregamos a la lista existente
-            // Si no, creamos una nueva lista y agregamos la ausencia
-            if (!ausenciasPorHora.containsKey(hora)) {
-                ausenciasPorHora.put(hora, new ArrayList<>());
-            }
-            ausenciasPorHora.get(hora).add(ausenciaDTO);
+            ausenciasPorHora.computeIfAbsent(hora, k -> new ArrayList<>()).add(ausenciaDTO);
         }
 
         return ausenciasPorHora;
     }
+
 
     //Siguiendo la logica del metodo anterior, obtenemos el historico ordenado por fecha y despues por hora, esta vez usando TreeMap
     public Map<LocalDate, Map<String, List<AusenciaDTO>>> historicoFaltas() {
         // Obtenemos todas las ausencias
         List<Ausencia> ausenciasTodas = ausenciaRepository.findAll();
 
-        // Creamos un TreeMap para que las fechas estén ordenadas de menor a mayor
+        // Creamos el TreeMap para las fechas
         Map<LocalDate, Map<String, List<AusenciaDTO>>> historicoFaltas = new TreeMap<>();
 
-        // Recorremos cada ausencia
         for (Ausencia ausencia : ausenciasTodas) {
-            // Obtenemos la fecha y hora
             LocalDate fecha = ausencia.getFecha();
             String hora = ausencia.getHora().name();
 
-            // Creamos un DTO de la ausencia
             AusenciaDTO ausenciaDTO = new AusenciaDTO(
-                    ausencia.getFecha(), // Fecha de la ausencia
-                    ausencia.getProfesorAusente().getEmail(), // Email del profesor ausente
-                    hora, // Hora de la ausencia (como texto)
-                    ausencia.getTarea() // Descripción de la tarea
+                    ausencia.getFecha(),
+                    ausencia.getProfesorAusente().getEmail(),
+                    hora,
+                    ausencia.getTarea()
             );
 
-            // Si no existe la fecha en el mapa, inicializamos su submapa como TreeMap
-            if (!historicoFaltas.containsKey(fecha)) {
-                historicoFaltas.put(fecha, new TreeMap<>()); // TreeMap para que las horas estén ordenadas
-            }
-
-            // Obtenemos el submapa de esa fecha
-            Map<String, List<AusenciaDTO>> ausenciasPorHora = historicoFaltas.get(fecha);
-
-            // Agrupamos las ausencias por hora
-            if (!ausenciasPorHora.containsKey(hora)) {
-                ausenciasPorHora.put(hora, new ArrayList<>());
-            }
-            ausenciasPorHora.get(hora).add(ausenciaDTO);
+            historicoFaltas.computeIfAbsent(fecha, k -> new TreeMap<>((hora1, hora2) -> {
+                HoraDia h1 = HoraDia.valueOf(hora1);
+                HoraDia h2 = HoraDia.valueOf(hora2);
+                return h1.ordinal() - h2.ordinal();
+            })).computeIfAbsent(hora, k -> new ArrayList<>()).add(ausenciaDTO);
         }
 
         return historicoFaltas;
     }
+
 
     public Map<LocalDate, Map<String, List<AusenciaDTO>>> historicoFaltasPorProfesor(String emailProfesor) {
-        // Obtenemos todas las ausencias del profesor por su email
+        // Obtenemos todas las ausencias del profesor
         List<Ausencia> ausenciasProfesor = ausenciaRepository.findAllByProfesorAusenteEmail(emailProfesor);
 
-        // Creamos un TreeMap para que las fechas estén ordenadas de menor a mayor
+        // Creamos el TreeMap para las fechas
         Map<LocalDate, Map<String, List<AusenciaDTO>>> historicoFaltas = new TreeMap<>();
 
-        // Recorremos cada ausencia del profesor
         for (Ausencia ausencia : ausenciasProfesor) {
-            // Obtenemos la fecha y hora
             LocalDate fecha = ausencia.getFecha();
             String hora = ausencia.getHora().name();
 
-            // Creamos un DTO de la ausencia
             AusenciaDTO ausenciaDTO = new AusenciaDTO(
-                    ausencia.getFecha(), // Fecha de la ausencia
-                    ausencia.getProfesorAusente().getEmail(), // Email del profesor ausente
-                    hora, // Hora de la ausencia (como texto)
-                    ausencia.getTarea() // Descripción de la tarea
+                    ausencia.getFecha(),
+                    ausencia.getProfesorAusente().getEmail(),
+                    hora,
+                    ausencia.getTarea()
             );
 
-            // Si no existe la fecha en el mapa, inicializamos su submapa como TreeMap
-            if (!historicoFaltas.containsKey(fecha)) {
-                historicoFaltas.put(fecha, new TreeMap<>()); // TreeMap para que las horas estén ordenadas
-            }
-
-            // Obtenemos el submapa de esa fecha
-            Map<String, List<AusenciaDTO>> ausenciasPorHora = historicoFaltas.get(fecha);
-
-            // Agrupamos las ausencias por hora
-            if (!ausenciasPorHora.containsKey(hora)) {
-                ausenciasPorHora.put(hora, new ArrayList<>());
-            }
-            ausenciasPorHora.get(hora).add(ausenciaDTO);
+            //Metodo auxiliar para almacenar las faltas por orden, para despues faciliar la visualizacion del backend
+            historicoFaltas.computeIfAbsent(fecha, k -> new TreeMap<>((hora1, hora2) -> {
+                HoraDia h1 = HoraDia.valueOf(hora1);
+                HoraDia h2 = HoraDia.valueOf(hora2);
+                return h1.ordinal() - h2.ordinal();
+            })).computeIfAbsent(hora, k -> new ArrayList<>()).add(ausenciaDTO);
         }
 
         return historicoFaltas;
     }
+
 
 
 
