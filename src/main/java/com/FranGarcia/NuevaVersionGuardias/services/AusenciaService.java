@@ -38,6 +38,21 @@ public class AusenciaService {
         return ausenciaRepository.save(ausencia);
     }
 
+    @Transactional
+    public void eliminarFalta(LocalDate fecha, String profesorEmail, String hora) {
+        // Convertimos la hora de texto al enum correspondiente
+        HoraDia horaEnum = HoraDia.valueOfHora(hora);
+
+        // Buscamos la ausencia
+        Ausencia ausencia = ausenciaRepository.findByFechaAndProfesorAusenteEmailAndHora(fecha, profesorEmail, horaEnum)
+                .orElseThrow(() -> new RuntimeException("Falta no encontrada"));
+
+        // Eliminamos la ausencia
+        ausenciaRepository.delete(ausencia);
+    }
+
+
+
     //El objetivo de este metodo es tener un mapa cuya clave va a ser la hora del dia y el valor que sera una lista con todas las ausencias de dicha hora
     public Map<String, List<AusenciaDTO>> listarAusenciasPorFechaAgrupadasPorHora(LocalDate fecha) {
         //Obtenemos todas las ausencias de la fecha indicada
